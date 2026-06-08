@@ -3,6 +3,7 @@ import { LogOut, ChevronLeft, ShoppingBag } from 'lucide-react';
 import { Typography, TypographyVariant } from '../typography/typography';
 import { Button, ButtonVariant } from '../button/button';
 import { useNavigation } from '@/hooks/use-navigation';
+import { CookiesManager } from '@/shared/utils/cookies-manager';
 
 interface HeaderProps {
   title?: string;
@@ -22,7 +23,12 @@ export function Header({
   onBack,
   primaryAction
 }: HeaderProps) {
-  const { auth, shop, back } = useNavigation();
+  const { client, auth, back } = useNavigation();
+
+  const handleLogout = () => {
+    CookiesManager.clearAll();
+    auth.login();
+  };
   return (
     <header className="h-20 border-b border-neutral-100 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
@@ -37,7 +43,7 @@ export function Header({
               <ChevronLeft size={22} className="text-neutral-500 group-hover:text-primary" />
             </button>
           ) : (
-            <div className="cursor-pointer" onClick={() => shop.home()}>
+            <div className="cursor-pointer" onClick={() => client.home()}>
               <Typography variant={TypographyVariant.SUBTITLE} className="font-display tracking-tighter text-2xl">
                 SCENT<span className="text-primary font-black">STACK</span>
               </Typography>
@@ -67,7 +73,7 @@ export function Header({
               </nav>
               <div
                 className="relative cursor-pointer hover:scale-105 transition-transform p-2 bg-neutral-50 rounded-full"
-                onClick={() => shop.cart()}
+                onClick={() => client.cart()}
               >
                 <ShoppingBag size={24} className="text-neutral-800" />
                 <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border-2 border-white">
@@ -88,7 +94,7 @@ export function Header({
               )}
               <div className="w-px h-6 bg-neutral-200 dark:bg-neutral-800 mx-2" />
               <button
-                onClick={() => auth.logout()}
+                onClick={handleLogout}
                 className="p-2.5 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-colors group"
                 title="Cerrar sesión"
               >

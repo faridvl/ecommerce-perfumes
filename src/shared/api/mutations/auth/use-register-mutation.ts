@@ -1,5 +1,5 @@
 import { ApiServiceClient } from '../../api-service-client';
-import { env } from '../../config';
+import { AUTH_API_URL } from '../../config';
 import { useApiMutation } from '../use-api-mutation';
 
 export function useRegisterMutation() {
@@ -11,7 +11,7 @@ export function useRegisterMutation() {
   } = useApiMutation({
     mutationKey: ['registerUser'],
     mutationFn: (values: any) =>
-      ApiServiceClient(env.API.IDENTITY_URL).post('/auth/register', values),
+      ApiServiceClient(AUTH_API_URL).post('/auth/register', values),
   });
 
   return {

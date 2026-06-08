@@ -1,7 +1,7 @@
 import { LoginCredentials, LoginResponse } from '@/types/auth/auth';
 import { ApiServiceClient } from '../../api-service-client';
 import { useApiMutation } from '../use-api-mutation';
-import { env } from '../../config';
+import { AUTH_API_URL } from '../../config';
 
 export function useLoginMutation() {
   const {
@@ -12,7 +12,7 @@ export function useLoginMutation() {
   } = useApiMutation<LoginResponse, LoginCredentials>({
     mutationKey: ['loginUser'],
     mutationFn: (credentials) =>
-      ApiServiceClient(env.API.IDENTITY_URL).post('/auth/login', credentials),
+      ApiServiceClient(AUTH_API_URL).post('/auth/login', credentials),
   });
 
   return { executeLogin, isPending, error, reset };

@@ -19,12 +19,133 @@
       "business": {
         "name": "Zynka"
       },
-      "files": "Expedientes",
-      "patients": "Pacientes",
       "dashboard": "Dashboard",
       "customers": "Clientes",
       "about": "Nosotros",
       "settings": "Ajustes"
+    }
+  },
+  "admin": {
+    "inventory": {
+      "list": {
+        "title": "Gestión de Stock",
+        "search_placeholder": "Buscar por nombre o marca...",
+        "create_button": "+ Nuevo Perfume",
+        "col_product": "Producto",
+        "col_stock": "Stock",
+        "col_price": "Precio desde",
+        "col_status": "Estado",
+        "col_actions": "Acciones",
+        "units": "uds.",
+        "status_active": "Activo",
+        "status_inactive": "Inactivo",
+        "empty": "Sin productos registrados",
+        "error": "Error al cargar el inventario. Intenta de nuevo.",
+        "action_edit": "Editar",
+        "action_delete": "Eliminar"
+      },
+      "create": {
+        "title": "Nuevo Perfume",
+        "subtitle": "Completa la información del producto y sus variantes.",
+        "section_info": "Información General",
+        "section_variants": "Variantes",
+        "section_images": "Imágenes",
+        "field_name": "Nombre",
+        "field_name_placeholder": "Ej. Midnight Oud",
+        "field_brand": "Marca",
+        "field_brand_placeholder": "Ej. Maison Francis Kurkdjian",
+        "field_description": "Descripción",
+        "field_description_placeholder": "Describe la fragancia, notas olfativas, ocasión...",
+        "field_slug": "Slug (URL)",
+        "field_slug_placeholder": "midnight-oud",
+        "field_price": "Precio (USD)",
+        "field_stock": "Stock",
+        "field_sku": "SKU",
+        "field_size": "Tamaño (ml)",
+        "field_concentration": "Concentración",
+        "field_image_url": "URL de imagen",
+        "field_alt_text": "Texto alternativo",
+        "field_is_primary": "Imagen principal",
+        "add_variant": "+ Agregar variante",
+        "add_image": "+ Agregar imagen",
+        "remove": "Eliminar",
+        "submit": "Guardar Perfume",
+        "cancel": "Cancelar",
+        "success": "Perfume creado exitosamente",
+        "edit_title": "Editar Perfume",
+        "edit_submit": "Guardar Cambios",
+        "edit_success": "Perfume actualizado exitosamente"
+      }
+    },
+    "sales": {
+      "list": {
+        "title": "Ventas y Pedidos",
+        "col_order": "Pedido",
+        "col_customer": "Cliente",
+        "col_date": "Fecha",
+        "col_total": "Total",
+        "col_status": "Estado",
+        "col_actions": "Acciones",
+        "status_pending": "Pendiente",
+        "status_confirmed": "Confirmado",
+        "status_shipped": "Enviado",
+        "status_delivered": "Entregado",
+        "status_cancelled": "Cancelado",
+        "empty": "No hay pedidos registrados",
+        "error": "Error al cargar los pedidos. Intenta de nuevo.",
+        "action_view": "Ver detalle"
+      },
+      "detail": {
+        "title": "Detalle del Pedido",
+        "order_number": "N° de Pedido",
+        "customer": "Cliente",
+        "email": "Correo",
+        "date": "Fecha",
+        "status": "Estado",
+        "items_title": "Productos del Pedido",
+        "col_product": "Producto",
+        "col_variant": "Presentación",
+        "col_qty": "Cantidad",
+        "col_price": "Precio unit.",
+        "col_subtotal": "Subtotal",
+        "total": "Total del Pedido",
+        "update_status": "Actualizar Estado",
+        "error": "Error al cargar el pedido. Intenta de nuevo.",
+        "not_found": "Pedido no encontrado.",
+        "back": "Volver a Ventas"
+      }
+    }
+  },
+  "cart": {
+    "title": "Tu Carrito",
+    "empty": "Tu carrito está vacío",
+    "see_catalog": "Ver Catálogo",
+    "summary": "Resumen",
+    "subtotal": "Subtotal",
+    "shipping": "Envío",
+    "shipping_free": "Gratis",
+    "total": "Total",
+    "checkout": "Procesar Compra",
+    "whatsapp_note": "Cierre de venta vía WhatsApp",
+    "error": "Error al cargar el carrito. Intenta de nuevo."
+  },
+  "catalog": {
+    "list": {
+      "hero_cta": "Descubrir ahora",
+      "title": "Explorar Fragancias",
+      "subtitle": "Mostrando {{count}} productos exclusivos",
+      "search_placeholder": "Buscar por nombre o marca...",
+      "loading": "Cargando...",
+      "error": "Error al cargar los productos. Intenta de nuevo.",
+      "no_image": "Sin imagen"
+    },
+    "detail": {
+      "error": "No se pudo cargar el producto. Intenta de nuevo.",
+      "no_image": "Sin imagen disponible",
+      "select_variant": "Selecciona presentación",
+      "out_of_stock": "Agotado",
+      "add_to_cart": "Añadir al Carrito",
+      "adding": "Agregando..."
     }
   },
   "users": {
@@ -35,9 +156,7 @@
       "security_description": "Los usuarios creados recibirán un correo electrónico para activar su cuenta y configurar su contraseña de forma segura.",
       "roles": {
         "all": "Todos",
-        "admin": "Administrador",
-        "doctor": "Doctor",
-        "staff": "Staff"
+        "admin": "Administrador"
       },
       "create": {
         "layoutTitle": "Nuevo Miembro",
@@ -47,7 +166,7 @@
           "fullName": "Nombre Completo",
           "fullNamePlaceholder": "Ej. Roberto Gómez",
           "email": "Correo Electrónico",
-          "emailPlaceholder": "nombre@clinica.com",
+          "emailPlaceholder": "nombre@ejemplo.com",
           "password": "Contraseña Temporal",
           "passwordPlaceholder": "••••••••",
           "role": "Rol de Sistema",
@@ -58,8 +177,7 @@
         "roles": {
           "OWNER": "Dueño",
           "ADMIN": "Administrador",
-          "DOCTOR": "Médico",
-          "STAFF": "Recepcionista / Staff"
+          "STAFF": "Staff"
         }
       }
     }

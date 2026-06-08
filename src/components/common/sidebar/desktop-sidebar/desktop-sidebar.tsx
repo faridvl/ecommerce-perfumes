@@ -15,7 +15,7 @@ export default function DesktopSidebar() {
 
       {/* Logo Section - ScentStack Identity */}
       <div className="flex h-[80px] items-center px-6 mb-2">
-        <Link href={routesPrivate.dashboard} className="flex items-center gap-3 group">
+        <Link href={routesPrivate.admin.dashboard} className="flex items-center gap-3 group">
           <div className="h-10 w-10 bg-primary rounded-2xl flex items-center justify-center text-white font-black text-lg transition-all duration-300 group-hover:scale-105 group-hover:rotate-3 shadow-lg shadow-primary/20">
             S
           </div>

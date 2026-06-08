@@ -45,7 +45,7 @@ export function unauthorizeServerSidePage(): GetServerSideProps {
     if (token) {
       return {
         redirect: {
-          destination: routesPrivate.dashboard,
+          destination: routesPrivate.admin.dashboard,
           permanent: false,
         },
       };

@@ -1,36 +1,36 @@
 import { useRouter } from 'next/router';
-import { routesPrivate, routesPublic } from '@/shared/navigation/routes';
+import { routesPublic, routesPrivate } from '@/shared/navigation/routes';
 
 export const useNavigation = () => {
   const router = useRouter();
 
   return {
-    shop: {
+    client: {
       home: () => router.push(routesPublic.home),
       catalog: () => router.push(routesPublic.catalog),
-      product: (slug: string) => router.push(routesPublic.productDetail(slug)),
+      productDetail: (slug: string) => router.push(routesPublic.productDetail(slug)),
       cart: () => router.push(routesPublic.cart),
       checkout: () => router.push(routesPublic.checkout),
-      checkoutSuccess: (id: string) => router.push(routesPublic.orderSuccess(id)),
+      checkoutSuccess: (orderId: string) => router.push(routesPublic.checkoutSuccess(orderId)),
     },
     auth: {
       login: () => router.push(routesPublic.login),
       register: () => router.push(routesPublic.register),
-      logout: () => {
-        // Aquí agregarías la lógica de borrar cookies
-        router.push(routesPublic.login);
-      },
     },
     admin: {
-      dashboard: () => router.push(routesPrivate.dashboard),
+      dashboard: () => router.push(routesPrivate.admin.dashboard),
       inventory: {
-        list: () => router.push(routesPrivate.inventory.index),
-        create: () => router.push(routesPrivate.inventory.create),
-        edit: (id: string) => router.push(routesPrivate.inventory.edit(id)),
+        index: () => router.push(routesPrivate.admin.inventory.index),
+        create: () => router.push(routesPrivate.admin.inventory.create),
+        edit: (productUuid: string) =>
+          router.push(routesPrivate.admin.inventory.edit(productUuid)),
       },
       sales: {
-        list: () => router.push(routesPrivate.sales.index),
-        detail: (id: string) => router.push(routesPrivate.sales.detail(id)),
+        index: () => router.push(routesPrivate.admin.sales.index),
+        detail: (orderId: string) => router.push(routesPrivate.admin.sales.detail(orderId)),
+      },
+      customers: {
+        index: () => router.push(routesPrivate.admin.customers.index),
       },
     },
     back: () => router.back(),

@@ -6,29 +6,24 @@ export const routesPublic = {
   productDetail: (slug: string) => `/catalog/${slug}`,
   cart: '/cart',
   checkout: '/checkout',
-  orderSuccess: (id: string) => `/checkout/success/${id}`,
+  checkoutSuccess: (orderId: string) => `/checkout/success/${orderId}`,
 };
 
 export const routesPrivate = {
-  // Sección Cliente
-  profile: '/profile',
-  myOrders: '/orders',
-  orderDetail: (id: string | number) => `/orders/${id}`,
-
-  // Sección Admin (Backoffice)
-  dashboard: '/admin/dashboard',
-  inventory: {
-    index: '/admin/inventory',
-    create: '/admin/inventory/create',
-    edit: (id: string | number) => `/admin/inventory/edit/${id}`,
+  admin: {
+    dashboard: '/admin/dashboard',
+    inventory: {
+      index: '/admin/inventory',
+      create: '/admin/inventory/create',
+      edit: (productUuid: string) => `/admin/inventory/edit/${productUuid}`,
+    },
+    sales: {
+      index: '/admin/sales',
+      detail: (orderId: string) => `/admin/sales/${orderId}`,
+    },
+    customers: {
+      index: '/admin/customers',
+    },
+    settings: '/admin/settings',
   },
-  sales: {
-    index: '/admin/sales',
-    detail: (id: string | number) => `/admin/sales/${id}`,
-  },
-  customers: {
-    index: '/admin/customers',
-    detail: (id: string | number) => `/admin/customers/${id}`,
-  },
-  settings: '/admin/settings',
 };

@@ -1,11 +1,11 @@
 import { ApiServiceClient } from '@/shared/api/api-service-client';
-import { env } from '@/shared/api/config';
+import { AUTH_API_URL } from '@/shared/api/config';
 import { User } from '@/types/auth/auth';
 import { PaginatedResponse } from '@/types/otros/paginate.types';
 import { useQuery } from '@tanstack/react-query';
 
 
-const USERS_URL = env.API.IDENTITY_URL; 
+const USERS_URL = AUTH_API_URL;
 
 export const UserService = {
   fetchUsers: async (

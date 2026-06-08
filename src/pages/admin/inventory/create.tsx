@@ -1,23 +1,12 @@
-import React from 'react';
 import { DashboardLayout } from '@/components/common/layout/dashboard-layout';
-import { useNavigation } from '@/hooks/use-navigation';
-import { Button, ButtonVariant } from '@/components/common/button/button';
+import { InventoryCreateContainer } from '@/components/containers/admin/inventory/create/inventory-create-container';
+import { authorizeServerSidePage } from '@/hocs/auth';
 
-const CreateProductPage = () => {
-    const { back } = useNavigation();
+const InventoryCreatePage = () => (
+  <DashboardLayout title="Nuevo Perfume" isMainPage={false}>
+    <InventoryCreateContainer />
+  </DashboardLayout>
+);
 
-    return (
-        <DashboardLayout
-            title="Nuevo Perfume"
-            isMainPage={false} // Esto activa automáticamente el botón "Atrás" en tu Header
-        >
-            <></>
-            {/* {(layout) => {
-                // Configuramos el botón de volver manualmente si es necesario
-           <></>
-            }}> */}
-        </DashboardLayout>
-    );
-};
-
-export default CreateProductPage;
+export const getServerSideProps = authorizeServerSidePage();
+export default InventoryCreatePage;

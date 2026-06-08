@@ -6,7 +6,7 @@ import { MapPin, Truck, CreditCard, MessageCircle } from 'lucide-react';
 import { StoreLayout } from '@/components/common/layout/store-layout/store-layout';
 
 const CheckoutPage = () => {
-    const { shop } = useNavigation();
+    const { client } = useNavigation();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Simulación de envío de formulario
@@ -17,7 +17,7 @@ const CheckoutPage = () => {
         // Aquí iría tu lógica para guardar la orden en Firebase/DB
         setTimeout(() => {
             // Redirigimos a la página de éxito que crearemos (ejemplo ID: 12345)
-            shop.checkoutSuccess("12345");
+            client.checkoutSuccess("12345");
         }, 1500);
     };
 
