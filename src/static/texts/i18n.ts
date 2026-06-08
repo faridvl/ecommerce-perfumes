@@ -125,6 +125,20 @@ export const TEXT = {
     WHATSAPP_NOTE: 'cart.whatsapp_note',
     ERROR:         'cart.error',
   },
+  LOGIN: {
+    TITLE:                       'login.title',
+    SUBTITLE:                    'login.subtitle',
+    EMAIL_LABEL:                 'login.email_label',
+    EMAIL_PLACEHOLDER:           'login.email_placeholder',
+    PASSWORD_LABEL:              'login.password_label',
+    PASSWORD_PLACEHOLDER:        'login.password_placeholder',
+    SUBMIT:                      'login.submit',
+    SUBMITTING:                  'login.submitting',
+    ERROR_INVALID:               'login.error_invalid',
+    VALIDATION_EMAIL_REQUIRED:   'login.validation_email_required',
+    VALIDATION_EMAIL_VALID:      'login.validation_email_valid',
+    VALIDATION_PASSWORD_REQUIRED:'login.validation_password_required',
+  },
   CATALOG: {
     LIST: {
       HERO_CTA:           'catalog.list.hero_cta',

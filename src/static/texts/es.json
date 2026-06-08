@@ -129,6 +129,20 @@
     "whatsapp_note": "Cierre de venta vía WhatsApp",
     "error": "Error al cargar el carrito. Intenta de nuevo."
   },
+  "login": {
+    "title": "Bienvenido a ScentStack",
+    "subtitle": "Ingresa tus credenciales para gestionar tu tienda.",
+    "email_label": "Email",
+    "email_placeholder": "admin@scentstack.com",
+    "password_label": "Contraseña",
+    "password_placeholder": "••••••••",
+    "submit": "Iniciar Sesión",
+    "submitting": "Iniciando sesión...",
+    "error_invalid": "Credenciales incorrectas. Verifica tu email y contraseña.",
+    "validation_email_required": "El email es requerido",
+    "validation_email_valid": "Ingresa un email válido",
+    "validation_password_required": "La contraseña es requerida"
+  },
   "catalog": {
     "list": {
       "hero_cta": "Descubrir ahora",
