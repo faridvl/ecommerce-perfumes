@@ -98,9 +98,9 @@ Plan completo con contexto técnico en [`.claude/docs/roadmap-visual-frontend.md
 
 #### P4 — Cart Drawer
 
-- [ ] **S3-A** `CartDrawerContext` + Provider en `_app.tsx`
-- [ ] **S3-B** Componente drawer lateral: items, +/- cantidad, subtotal, CTA checkout
-- [ ] **S3-C** Navbar cart badge + trigger automático desde lista y detalle
+- [x] **S3-A** `CartDrawerContext` + Provider en `_app.tsx`
+- [x] **S3-B** Componente drawer lateral: items, +/- cantidad, subtotal, CTA checkout
+- [x] **S3-C** Navbar cart badge + trigger automático desde lista y detalle
 
 #### P5 — Detalle de Producto Mejorado
 

@@ -7,6 +7,8 @@ import '../styles/globals.scss';
 import '@/shared/i18n/i18n';
 import { DashboardContextProvider } from '@/layouts/dashboard/dashboard-context';
 import { NavigationContextProvider } from '@/shared/context/navigation-context';
+import { CartDrawerProvider } from '@/shared/context/cart-drawer-context';
+import { CartDrawer } from '@/components/common/cart-drawer/cart-drawer';
 import { PageLoadingBar } from '@/components/common/page-loading-bar/page-loading-bar';
 import { BannerContainer } from '@/components/common/banner-container/banner-container';
 
@@ -50,11 +52,14 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
       <QueryClientProvider client={queryClient}>
         <NavigationContextProvider>
-          <DashboardContextProvider>
-            <PageLoadingBar />
-            <BannerContainer />
-            <Component {...pageProps} />
-          </DashboardContextProvider>
+          <CartDrawerProvider>
+            <DashboardContextProvider>
+              <PageLoadingBar />
+              <BannerContainer />
+              <Component {...pageProps} />
+              <CartDrawer />
+            </DashboardContextProvider>
+          </CartDrawerProvider>
         </NavigationContextProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />

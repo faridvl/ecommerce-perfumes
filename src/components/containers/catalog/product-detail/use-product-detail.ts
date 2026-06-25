@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useProductDetailQuery } from '@/shared/api/querys/inventory/use-product-detail-query';
 import { useAddCartItemMutation } from '@/shared/api/mutations/cart/use-add-cart-item-mutation';
-import { useNavigation } from '@/hooks/use-navigation';
+import { useCartDrawer } from '@/shared/context/cart-drawer-context';
 import { ProductVariant } from '@/types/product/product.types';
 
 export function useProductDetail() {
   const router = useRouter();
-  const navigation = useNavigation();
+  const { open: openCartDrawer } = useCartDrawer();
   const productSlug = router.query.slug as string;
 
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
@@ -29,7 +29,7 @@ export function useProductDetail() {
         quantity: 1,
         unit_price: activeVariant.price_usd,
       },
-      { onSuccess: () => navigation.client.cart() },
+      { onSuccess: () => openCartDrawer() },
     );
   };
 

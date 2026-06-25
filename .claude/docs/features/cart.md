@@ -1,6 +1,6 @@
 # Feature: Carrito de Compras
 
-## Estado: Funcional ✅
+## Estado: Funcional ✅ — Cart Drawer implementado ✅
 
 ---
 
@@ -8,6 +8,10 @@
 
 | Archivo | Responsabilidad |
 |---------|----------------|
+| `src/shared/context/cart-drawer-context.tsx` | Context + Provider + hook `useCartDrawer` |
+| `src/components/common/cart-drawer/cart-drawer.tsx` | Drawer lateral: overlay, panel, skeleton, footer |
+| `src/components/common/cart-drawer/cart-drawer-item.tsx` | Item con controles +/-, precio por línea, eliminar |
+| `src/components/common/cart-drawer/cart-drawer-empty.tsx` | Estado vacío con CTA al catálogo |
 | `src/pages/cart/index.tsx` | Página carrito (composición únicamente) |
 | `src/components/containers/cart/cart-container.tsx` | UI: lista de items, resumen, vaciar |
 | `src/shared/api/querys/cart/use-cart-query.ts` | TanStack Query para obtener carrito |
@@ -93,7 +97,19 @@ cart.error
 
 ---
 
+## Cart Drawer
+
+- Se monta en `_app.tsx` fuera del árbol de páginas — disponible en toda la app
+- Se controla desde cualquier componente con `useCartDrawer()` (open / close / isOpen)
+- El header (`header.tsx`) abre el drawer al click en el ícono del carrito y muestra el badge con la cantidad real desde `useCartQuery`
+- Al agregar al carrito desde el detalle de producto, el `onSuccess` llama a `openCartDrawer()` en lugar de navegar a `/cart`
+- Bloquea scroll del body mientras está abierto
+- Animación: `slide-in-right` (keyframe en `tailwind.config.js`)
+
+---
+
 ## Strings hardcodeados pendientes de migrar
 
 Ver [audits/i18n-gaps.md](../../audits/i18n-gaps.md):
 - `"Vaciar"` en `cart-container.tsx`
+- Strings en `cart-drawer.tsx` (Tu carrito, Ir al checkout, Ver carrito completo, Subtotal)

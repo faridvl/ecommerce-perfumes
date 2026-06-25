@@ -4,6 +4,8 @@ import { Typography, TypographyVariant } from '../typography/typography';
 import { Button, ButtonVariant } from '../button/button';
 import { useNavigation } from '@/hooks/use-navigation';
 import { CookiesManager } from '@/shared/utils/cookies-manager';
+import { useCartQuery } from '@/shared/api/querys/cart/use-cart-query';
+import { useCartDrawer } from '@/shared/context/cart-drawer-context';
 
 interface HeaderProps {
   title?: string;
@@ -24,6 +26,9 @@ export function Header({
   primaryAction
 }: HeaderProps) {
   const { client, auth, back } = useNavigation();
+  const { open: openCartDrawer } = useCartDrawer();
+  const { data: cart } = useCartQuery();
+  const cartItemCount = cart?.items.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
 
   const handleLogout = () => {
     CookiesManager.clearAll();
@@ -73,12 +78,14 @@ export function Header({
               </nav>
               <div
                 className="relative cursor-pointer hover:scale-105 transition-transform p-2 bg-neutral-50 rounded-full"
-                onClick={() => client.cart()}
+                onClick={openCartDrawer}
               >
                 <ShoppingBag size={24} className="text-neutral-800" />
-                <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border-2 border-white">
-                  2
-                </span>
+                {cartItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border-2 border-white">
+                    {cartItemCount > 99 ? '99+' : cartItemCount}
+                  </span>
+                )}
               </div>
             </div>
           ) : (
