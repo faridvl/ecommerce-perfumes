@@ -65,7 +65,7 @@ export function ProductListContainer() {
               </Typography>
               <Button
                 variant={ButtonVariant.PRIMARY}
-                text={t(TEXT.CATALOG.LIST.HERO_CTA)}
+                text={"Ver Catalogo"}
                 className="w-fit px-10 h-14"
               />
             </div>
@@ -129,66 +129,93 @@ export function ProductListContainer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {isLoading
             ? Array.from({ length: 8 }).map((_, skeletonIndex) => (
-                <div key={skeletonIndex} className="animate-pulse">
-                  <div className="aspect-[3/4] rounded-[32px] bg-neutral-200 mb-6" />
-                  <div className="h-3 bg-neutral-200 rounded w-1/2 mb-2" />
-                  <div className="h-5 bg-neutral-200 rounded w-3/4 mb-2" />
-                  <div className="h-4 bg-neutral-200 rounded w-1/3" />
-                </div>
-              ))
+              <div key={skeletonIndex} className="animate-pulse">
+                <div className="aspect-[3/4] rounded-[32px] bg-neutral-200 mb-6" />
+                <div className="h-3 bg-neutral-200 rounded w-1/2 mb-2" />
+                <div className="h-5 bg-neutral-200 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-neutral-200 rounded w-1/3" />
+              </div>
+            ))
             : products.map((product) => {
-                const primaryImage = product.images.find(
-                  (productImage) => productImage.is_primary,
-                );
-                const primaryVariant = product.variants[0];
+              const primaryImage = product.images.find(
+                (productImage) => productImage.is_primary,
+              );
+              const primaryVariant = product.variants[0];
 
-                return (
-                  <div
-                    key={product.uuid}
-                    className="group cursor-pointer"
-                    onClick={() => handleProductClick(product.slug)}
-                  >
-                    <div className="aspect-[3/4] rounded-[32px] overflow-hidden bg-neutral-100 relative mb-6">
-                      {primaryImage ? (
-                        <img
-                          src={primaryImage.url}
-                          alt={primaryImage.alt_text || product.name}
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-neutral-300 text-sm">
-                          {t(TEXT.CATALOG.LIST.NO_IMAGE)}
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <button className="bg-white p-4 rounded-full shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
-                          <ShoppingCart size={20} className="text-black" />
+              return (
+                <div
+                  key={product.uuid}
+                  className="group cursor-pointer"
+                  onClick={() => handleProductClick(product.slug)}
+                >
+                  <div className="aspect-[3/4] rounded-[32px] overflow-hidden bg-neutral-100 relative mb-6">
+                    {primaryImage ? (
+                      <img
+                        src={primaryImage.url}
+                        alt={primaryImage.alt_text || product.name}
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-neutral-300 text-sm">
+                        {t(TEXT.CATALOG.LIST.NO_IMAGE)}
+                      </div>
+                    )}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                      <div className="relative z-10 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <Typography
+                          variant={TypographyVariant.OVERLINE}
+                          textColor="text-neutral-300"
+                          className="text-xs mb-1 block uppercase tracking-widest"
+                        >
+                          {product.brand}
+                        </Typography>
+                        <Typography
+                          variant={TypographyVariant.BODY_BOLD}
+                          textColor="text-white"
+                          className="text-lg leading-tight mb-1"
+                        >
+                          {product.name}
+                        </Typography>
+                        {primaryVariant && (
+                          <Typography
+                            variant={TypographyVariant.BODY_SEMIBOLD}
+                            textColor="text-accent"
+                            className="text-base mb-4"
+                          >
+                            ${primaryVariant.price_usd.toLocaleString('es-CR')}
+                          </Typography>
+                        )}
+                        <button className="w-full flex items-center justify-center gap-2 bg-white hover:bg-accent hover:text-white text-black font-semibold text-sm py-3 px-4 rounded-2xl shadow-lg transition-colors duration-200">
+                          <ShoppingCart size={16} />
+                          Agregar al carrito
                         </button>
                       </div>
                     </div>
-                    <Typography
-                      variant={TypographyVariant.OVERLINE}
-                      className="text-[10px] text-neutral-400 mb-1 block"
-                    >
-                      {product.brand}
-                    </Typography>
-                    <Typography
-                      variant={TypographyVariant.BODY_BOLD}
-                      className="text-lg mb-1 leading-tight"
-                    >
-                      {product.name}
-                    </Typography>
-                    {primaryVariant && (
-                      <Typography
-                        variant={TypographyVariant.BODY_SEMIBOLD}
-                        textColor="text-accent"
-                      >
-                        ${primaryVariant.price_usd.toLocaleString('es-CR')}
-                      </Typography>
-                    )}
                   </div>
-                );
-              })}
+                  <Typography
+                    variant={TypographyVariant.OVERLINE}
+                    className="text-[10px] text-neutral-400 mb-1 block"
+                  >
+                    {product.brand}
+                  </Typography>
+                  <Typography
+                    variant={TypographyVariant.BODY_BOLD}
+                    className="text-lg mb-1 leading-tight"
+                  >
+                    {product.name}
+                  </Typography>
+                  {primaryVariant && (
+                    <Typography
+                      variant={TypographyVariant.BODY_SEMIBOLD}
+                      textColor="text-accent"
+                    >
+                      ${primaryVariant.price_usd.toLocaleString('es-CR')}
+                    </Typography>
+                  )}
+                </div>
+              );
+            })}
         </div>
       )}
     </div>

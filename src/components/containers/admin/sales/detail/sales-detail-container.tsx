@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, User, Mail, Calendar, Hash } from 'lucide-react';
+import { ArrowLeft, User, Phone, MapPin, Calendar, Hash } from 'lucide-react';
 import { Typography, TypographyVariant } from '@/components/common/typography/typography';
 import { tailwind } from '@/utils/tailwind-utils';
 import { TEXT } from '@/static/texts/i18n';
@@ -119,13 +119,25 @@ export function SalesDetailContainer() {
             </div>
 
             <div className="flex items-start gap-3">
-              <Mail size={16} className="text-neutral-400 mt-0.5 flex-shrink-0" />
+              <Phone size={16} className="text-neutral-400 mt-0.5 flex-shrink-0" />
               <div>
                 <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">
-                  {t(TEXT.ADMIN.SALES.DETAIL.EMAIL)}
+                  {t(TEXT.ADMIN.SALES.DETAIL.WHATSAPP)}
                 </Typography>
                 <Typography variant={TypographyVariant.BODY_SEMIBOLD}>
-                  {order.customer_email}
+                  {order.customer_whatsapp}
+                </Typography>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <MapPin size={16} className="text-neutral-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">
+                  {t(TEXT.ADMIN.SALES.DETAIL.ADDRESS)}
+                </Typography>
+                <Typography variant={TypographyVariant.BODY_SEMIBOLD}>
+                  {order.customer_address}
                 </Typography>
               </div>
             </div>

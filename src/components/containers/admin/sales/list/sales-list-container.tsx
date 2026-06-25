@@ -168,7 +168,7 @@ export function SalesListContainer() {
                       {order.customer_name}
                     </Typography>
                     <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">
-                      {order.customer_email}
+                      {order.customer_whatsapp}
                     </Typography>
                   </td>
 
