@@ -1,6 +1,6 @@
 # Feature: Catálogo de Productos
 
-## Estado: Funcional ✅
+## Estado: Funcional ✅ — Carrusel hero mejorado (S1-A)
 
 ---
 
@@ -11,7 +11,7 @@
 | `src/pages/catalog/index.tsx` | Página lista (composición únicamente) |
 | `src/pages/catalog/[slug]/index.tsx` | Página detalle (composición únicamente) |
 | `src/components/containers/catalog/product-list/product-list-container.tsx` | UI lista con hero carousel y grid |
-| `src/components/containers/catalog/product-list/use-product-list.ts` | Hook: búsqueda, paginación, add to cart |
+| `src/components/containers/catalog/product-list/use-product-list.ts` | Hook: búsqueda, paginación, add to cart, auto-play carrusel |
 | `src/components/containers/catalog/product-detail/product-detail-container.tsx` | UI detalle con selección de variante |
 | `src/components/containers/catalog/product-detail/use-product-detail.ts` | Hook: variante seleccionada, add to cart |
 | `src/shared/api/querys/inventory/use-products-query.ts` | TanStack Query para lista |
@@ -88,6 +88,17 @@ catalog.detail.out_of_stock
 catalog.detail.add_to_cart
 catalog.detail.adding
 ```
+
+---
+
+## Hero Carousel (S1-A)
+
+- Auto-avance cada 5 segundos (`AUTOPLAY_INTERVAL_MS = 5000`)
+- Pausa en `mouseenter`, reanuda en `mouseleave`
+- Dot indicators centrados en `bottom-6`: dot activo `w-6 h-2 bg-accent`, inactivos `w-2 h-2 bg-white/50`
+- Transición: `opacity` + `translate-x-8` (fade + desplazamiento horizontal, `duration-700`)
+- Slides configurados en `HERO_SLIDES` dentro de `use-product-list.ts`
+- Lógica de control: `goToSlide`, `pauseAutoPlay`, `resumeAutoPlay` exportados desde el hook
 
 ---
 

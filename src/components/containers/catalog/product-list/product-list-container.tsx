@@ -14,6 +14,9 @@ export function ProductListContainer() {
     currentSlideIndex,
     goToPreviousSlide,
     goToNextSlide,
+    goToSlide,
+    pauseAutoPlay,
+    resumeAutoPlay,
     products,
     totalProducts,
     searchQuery,
@@ -27,13 +30,19 @@ export function ProductListContainer() {
     <div className="flex flex-col gap-12">
 
       {/* Hero Carousel */}
-      <div className="relative w-full h-[500px] rounded-[40px] overflow-hidden shadow-2xl">
+      <div
+        className="relative w-full h-[500px] rounded-[40px] overflow-hidden shadow-2xl"
+        onMouseEnter={pauseAutoPlay}
+        onMouseLeave={resumeAutoPlay}
+      >
         {heroSlides.map((heroSlide, slideIndex) => (
           <div
             key={heroSlide.title}
             className={tailwind(
-              'absolute inset-0 transition-opacity duration-1000 ease-in-out',
-              slideIndex === currentSlideIndex ? 'opacity-100' : 'opacity-0',
+              'absolute inset-0 transition-all duration-700 ease-in-out',
+              slideIndex === currentSlideIndex
+                ? 'opacity-100 translate-x-0'
+                : 'opacity-0 translate-x-8',
             )}
           >
             <img
@@ -72,6 +81,24 @@ export function ProductListContainer() {
           </div>
         ))}
 
+        {/* Dot indicators */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+          {heroSlides.map((heroSlide, dotIndex) => (
+            <button
+              key={heroSlide.title}
+              onClick={() => goToSlide(dotIndex)}
+              aria-label={`Slide ${dotIndex + 1}`}
+              className={tailwind(
+                'rounded-full transition-all duration-300',
+                dotIndex === currentSlideIndex
+                  ? 'w-6 h-2 bg-accent'
+                  : 'w-2 h-2 bg-white/50 hover:bg-white/80',
+              )}
+            />
+          ))}
+        </div>
+
+        {/* Navigation arrows */}
         <div className="absolute bottom-8 right-12 flex gap-4">
           <button
             onClick={goToPreviousSlide}

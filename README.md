@@ -81,7 +81,7 @@ Plan completo con contexto técnico en [`.claude/docs/roadmap-visual-frontend.md
 #### P1 — Design System & Carrusel
 
 - [x] **S0-A** Paleta estandarizada: reemplazar azul legacy por negro elegante, definir superficies cálidas
-- [ ] **S1-A** Carrusel hero: auto-play, pausa en hover, dots indicators
+- [x] **S1-A** Carrusel hero: auto-play, pausa en hover, dots indicators
 
 #### P2 — Campos de filtro en BD y Admin
 
