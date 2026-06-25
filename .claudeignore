@@ -1,0 +1,62 @@
+# Dependencies
+
+node_modules/
+
+# Next.js
+
+.next/
+out/
+
+# Build
+
+dist/
+build/
+coverage/
+
+# Git
+
+.git/
+
+# Environment
+
+.env
+.env.local
+.env.production
+
+# Package managers
+
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Logs
+
+*.log
+
+# Images and assets
+
+public/images/
+public/uploads/
+
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.bmp
+*.tiff
+
+# Generated reports
+
+reports/
+artifacts/
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS
+
+.DS_Store
+Thumbs.db

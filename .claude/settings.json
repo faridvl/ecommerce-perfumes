@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npm run build:styles)",
+      "Bash(npm run watch:styles)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add src/*)",
+      "Bash(git commit*)"
+    ],
+    "deny": []
+  }
+}
