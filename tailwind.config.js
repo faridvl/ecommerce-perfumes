@@ -1,10 +1,12 @@
 const customColors = {
   primary: {
-    DEFAULT: '#2563EB',
-    light: '#3B82F6',
-    dark: '#1E40AF',
-    soft: '#DBEAFE',
+    DEFAULT: '#1A1A1A',
+    light: '#2D2D2D',
+    dark: '#0D0D0D',
+    soft: '#F5F5F5',
   },
+  'warm-white': '#FAF9F6',
+  cream: '#F5F0E8',
   secondary: {
     DEFAULT: '#0EA5E9',
     dark: '#0369A1',
@@ -71,7 +73,7 @@ module.exports = {
         card: '0 10px 25px -5px rgba(0, 0, 0, 0.25)',
         'card-hover': '0 20px 40px -10px rgba(0, 0, 0, 0.35)',
         glow: '0 0 15px 2px rgba(212, 175, 55, 0.3)',
-        'primary-button': '0 6px 12px rgba(37, 99, 235, 0.3)',
+        'primary-button': '0 6px 12px rgba(26, 26, 26, 0.25)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

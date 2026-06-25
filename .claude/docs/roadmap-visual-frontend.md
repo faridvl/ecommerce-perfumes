@@ -22,20 +22,18 @@ Al completar cada sesión: marcar el checkbox en `README.md` y actualizar el doc
 
 ## P1 — Design System & Carrusel `[pre-requisito visual]`
 
-### S0-A — Paleta de colores estandarizada `[½h]`
+### S0-A — Paleta de colores estandarizada `[½h]` ✅ COMPLETADO
 
 **Objetivo:** eliminar el azul legacy y definir la identidad visual de lujo.
 
-Cambios en `tailwind.config.js`:
-- `primary` → `#1A1A1A` (negro carbón elegante) con `light: #2D2D2D`, `soft: #F5F5F5`
-- Añadir `warm-white: '#FAF9F6'` — fondo principal del ecommerce
-- Añadir `cream: '#F5F0E8'` — fondo de tarjetas y superficies
+Cambios aplicados en `tailwind.config.js`:
+- `primary` → `#1A1A1A` (negro carbón elegante) con `light: #2D2D2D`, `dark: #0D0D0D`, `soft: #F5F5F5`
+- Añadido `warm-white: '#FAF9F6'` — fondo principal del ecommerce
+- Añadido `cream: '#F5F0E8'` — fondo de tarjetas y superficies
 - `accent` `#D4AF37` permanece sin cambios
-- Revisar y corregir usos de `text-primary`, `bg-primary`, `border-primary` en componentes de catálogo y checkout
+- Sombra `primary-button` actualizada al tono oscuro
 
-Archivos:
-- `tailwind.config.js`
-- Componentes de catálogo y checkout que usen clases `primary`
+Nota aplicada: el sidebar admin (`desktop-sidebar.tsx`) migró estados activos de `primary` → `accent` (dorado) para preservar visibilidad sobre fondo navy en dark mode. Catálogo, checkout, cart y header se benefician automáticamente del cambio de token.
 
 ---
 
