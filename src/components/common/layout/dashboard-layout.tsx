@@ -172,7 +172,7 @@ export function DashboardLayout({
         </header>
 
         <DashboardLayoutContent
-          contentClassNames={tailwind(contentClassNames, bottomPadding, 'pb-20 md:pb-0')}
+          contentClassNames={tailwind(contentClassNames, bottomPadding)}
           onScroll={onScroll}
           contentStyle={contentStyle}
           boxClassName={boxClassName}

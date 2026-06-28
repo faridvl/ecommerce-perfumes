@@ -108,8 +108,9 @@ export function InventoryListContainer() {
           return (
             <div
               key={product.uuid}
+              onClick={() => handleEdit(product.uuid)}
               className={tailwind(
-                'bg-white rounded-2xl border border-neutral-100 p-4 flex items-center gap-3',
+                'bg-white rounded-2xl border border-neutral-100 p-4 flex items-center gap-3 cursor-pointer hover:border-primary/30 hover:shadow-sm transition-all',
                 isDeleting && 'opacity-60 pointer-events-none',
               )}
             >
