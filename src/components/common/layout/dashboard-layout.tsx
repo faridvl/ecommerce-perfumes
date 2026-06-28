@@ -177,7 +177,11 @@ export function DashboardLayout({
           contentStyle={contentStyle}
           boxClassName={boxClassName}
         >
-          {renderedChildren}
+          <div>
+            {renderedChildren}
+            {/* Spacer para que el bottom nav no tape el contenido en mobile */}
+            {!hideSidebar && <div className="md:hidden h-20" aria-hidden="true" />}
+          </div>
         </DashboardLayoutContent>
       </div>
 
