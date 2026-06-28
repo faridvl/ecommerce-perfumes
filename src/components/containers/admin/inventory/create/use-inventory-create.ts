@@ -7,7 +7,10 @@ import { useCreateProductMutation } from '@/shared/api/mutations/inventory/use-c
 import { PRODUCTS_QUERY_KEY } from '@/shared/api/querys/inventory/use-products-query';
 import { useNavigation } from '@/hooks/use-navigation';
 
-const CONCENTRATION_OPTIONS = ['EDT', 'EDP', 'Parfum', 'Colonia'] as const;
+export const CONCENTRATION_OPTIONS = ['EDT', 'EDP', 'Parfum', 'Colonia'] as const;
+export const GENDER_OPTIONS = ['hombre', 'mujer', 'unisex'] as const;
+export const OLFACTORY_FAMILY_OPTIONS = ['floral', 'oriental', 'fresco', 'madero', 'cítrico', 'gourmand', 'amaderado', 'acuático'] as const;
+export const PRESENTATION_TYPE_OPTIONS = ['botella', 'decant'] as const;
 
 const variantSchema = yup.object({
   size_ml: yup
@@ -18,6 +21,10 @@ const variantSchema = yup.object({
   concentration: yup
     .string()
     .oneOf(CONCENTRATION_OPTIONS, 'Concentración no válida')
+    .required('Requerido'),
+  presentation_type: yup
+    .string()
+    .oneOf(PRESENTATION_TYPE_OPTIONS, 'Tipo no válido')
     .required('Requerido'),
   price_usd: yup
     .number()
@@ -48,6 +55,8 @@ const productSchema = yup.object({
     .string()
     .required('El slug es requerido')
     .matches(/^[a-z0-9-]+$/, 'Solo letras minúsculas, números y guiones'),
+  gender: yup.string().oneOf(GENDER_OPTIONS, 'Género no válido').required('El género es requerido'),
+  olfactory_family: yup.string().oneOf(OLFACTORY_FAMILY_OPTIONS, 'Familia no válida').nullable().default(null),
   variants: yup.array().of(variantSchema).min(1, 'Agrega al menos una variante').required(),
   images: yup.array().of(imageSchema).default([]),
 });
@@ -57,6 +66,7 @@ type ProductFormValues = yup.InferType<typeof productSchema>;
 const DEFAULT_VARIANT = {
   size_ml: 0,
   concentration: 'EDP' as const,
+  presentation_type: 'botella' as const,
   price_usd: 0,
   stock: 0,
   sku: '',
@@ -82,6 +92,8 @@ export function useInventoryCreate() {
       brand: '',
       description: '',
       slug: '',
+      gender: 'unisex',
+      olfactory_family: null,
       variants: [{ ...DEFAULT_VARIANT }],
       images: [],
     },
@@ -104,17 +116,13 @@ export function useInventoryCreate() {
   }, [watchedName, form]);
 
   const handleAddVariant = () => variantFields.append({ ...DEFAULT_VARIANT });
-
   const handleRemoveVariant = (variantIndex: number) => variantFields.remove(variantIndex);
-
   const handleAddImage = () => imageFields.append({ ...DEFAULT_IMAGE });
-
   const handleRemoveImage = (imageIndex: number) => imageFields.remove(imageIndex);
-
   const handleCancel = () => navigation.admin.inventory.index();
 
   const handleSubmit = form.handleSubmit((productFormValues) => {
-    executeCreate(productFormValues, {
+    executeCreate(productFormValues as any, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] });
         navigation.admin.inventory.index();
@@ -127,6 +135,9 @@ export function useInventoryCreate() {
     variantFields: variantFields.fields,
     imageFields: imageFields.fields,
     concentrationOptions: CONCENTRATION_OPTIONS,
+    genderOptions: GENDER_OPTIONS,
+    olfactoryFamilyOptions: OLFACTORY_FAMILY_OPTIONS,
+    presentationTypeOptions: PRESENTATION_TYPE_OPTIONS,
     isPending,
     hasError,
     handleAddVariant,

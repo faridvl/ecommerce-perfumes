@@ -31,10 +31,10 @@ export class CookiesManager {
     key: string,
     context?: GetServerSidePropsContext | NextPageContext,
   ): string | undefined {
-    if (context?.req?.headers?.cookie) {
-      const cookieHeader = context.req.headers.cookie;
+    if (context?.req) {
+      const cookieHeader = context.req.headers.cookie ?? '';
       const cookies = Object.fromEntries(
-        cookieHeader.split('; ').map((c) => {
+        cookieHeader.split('; ').filter(Boolean).map((c) => {
           const [name, ...value] = c.split('=');
           return [name.trim(), value.join('=')];
         }),

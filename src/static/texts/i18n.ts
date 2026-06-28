@@ -73,6 +73,22 @@ export const TEXT = {
         EDIT_SUCCESS:               'admin.inventory.create.edit_success',
       },
     },
+    DASHBOARD: {
+      SALES_TODAY:          'admin.dashboard.sales_today',
+      PENDING_ORDERS:       'admin.dashboard.pending_orders',
+      LOW_STOCK:            'admin.dashboard.low_stock',
+      RECENT_ORDERS_TITLE:  'admin.dashboard.recent_orders_title',
+    },
+    CUSTOMERS: {
+      TITLE:          'admin.customers.title',
+      COL_NAME:       'admin.customers.col_name',
+      COL_WHATSAPP:   'admin.customers.col_whatsapp',
+      COL_ORDERS:     'admin.customers.col_orders',
+      COL_TOTAL:      'admin.customers.col_total',
+      COL_LAST_ORDER: 'admin.customers.col_last_order',
+      EMPTY:          'admin.customers.empty',
+      ERROR:          'admin.customers.error',
+    },
     SALES: {
       LIST: {
         TITLE:            'admin.sales.list.title',

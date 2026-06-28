@@ -15,6 +15,7 @@ export const ApiServiceClient = (baseUrl: string) => {
 
     const response = await fetch(`${baseUrl}${endpoint}`, {
       ...options,
+      credentials: 'include',
       headers,
     });
 

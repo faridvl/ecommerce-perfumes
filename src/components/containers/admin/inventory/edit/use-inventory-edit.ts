@@ -9,6 +9,7 @@ import { useUpdateProductMutation } from '@/shared/api/mutations/inventory/use-u
 import { PRODUCTS_QUERY_KEY } from '@/shared/api/querys/inventory/use-products-query';
 import { PRODUCT_DETAIL_QUERY_KEY } from '@/shared/api/querys/inventory/use-product-detail-query';
 import { useNavigation } from '@/hooks/use-navigation';
+import { GENDER_OPTIONS, OLFACTORY_FAMILY_OPTIONS } from '../create/use-inventory-create';
 
 const editSchema = yup.object({
   name: yup.string().required('El nombre es requerido'),
@@ -18,6 +19,8 @@ const editSchema = yup.object({
     .string()
     .required('El slug es requerido')
     .matches(/^[a-z0-9-]+$/, 'Solo letras minúsculas, números y guiones'),
+  gender: yup.string().oneOf(GENDER_OPTIONS, 'Género no válido').nullable().default(null),
+  olfactory_family: yup.string().oneOf(OLFACTORY_FAMILY_OPTIONS, 'Familia no válida').nullable().default(null),
 });
 
 type EditFormValues = yup.InferType<typeof editSchema>;
@@ -39,6 +42,8 @@ export function useInventoryEdit() {
       brand: '',
       description: '',
       slug: '',
+      gender: null,
+      olfactory_family: null,
     },
   });
 
@@ -49,6 +54,8 @@ export function useInventoryEdit() {
         brand: product.brand,
         description: product.description ?? '',
         slug: product.slug,
+        gender: product.gender ?? null,
+        olfactory_family: product.olfactory_family ?? null,
       });
     }
   }, [product, form]);
@@ -58,7 +65,7 @@ export function useInventoryEdit() {
   const handleSubmit = form.handleSubmit((editFormValues) => {
     if (!productUuid) return;
     executeUpdate(
-      { productUuid, productData: editFormValues },
+      { productUuid, productData: editFormValues as any },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [PRODUCTS_QUERY_KEY] });
@@ -75,6 +82,8 @@ export function useInventoryEdit() {
     isLoadingProduct,
     isPending,
     hasError,
+    genderOptions: GENDER_OPTIONS,
+    olfactoryFamilyOptions: OLFACTORY_FAMILY_OPTIONS,
     handleCancel,
     handleSubmit,
   };

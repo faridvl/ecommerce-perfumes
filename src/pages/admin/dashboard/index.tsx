@@ -2,29 +2,114 @@ import React from 'react';
 import { authorizeServerSidePage } from '@/hocs/auth';
 import { DashboardLayout } from '@/components/common/layout/dashboard-layout';
 import { Typography, TypographyVariant } from '@/components/common/typography/typography';
+import { useDashboardStatsQuery } from '@/shared/api/querys/admin/use-dashboard-stats-query';
 
-const AdminDashboard = () => {
-    return (
-        <DashboardLayout title="Panel de Control">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                    { label: 'Ventas de hoy', value: '$12,400', color: 'text-success' },
-                    { label: 'Pedidos pendientes', value: '8', color: 'text-warning' },
-                    { label: 'Stock bajo', value: '3 items', color: 'text-danger' }
-                ].map((stat, i) => (
-                    <div key={i} className="bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm">
-                        <Typography variant={TypographyVariant.HELPER}>{stat.label}</Typography>
-                        <Typography variant={TypographyVariant.HEADER} className={stat.color}>{stat.value}</Typography>
-                    </div>
-                ))}
-            </div>
-
-            <div className="mt-10 bg-white p-8 rounded-2xl border border-neutral-100 h-96 flex items-center justify-center italic text-neutral-400">
-                Gráfico de ventas mensuales (Próximamente)
-            </div>
-        </DashboardLayout>
-    );
+const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  pending:   { label: 'Pendiente',  color: 'text-yellow-600 bg-yellow-50' },
+  confirmed: { label: 'Confirmado', color: 'text-blue-600 bg-blue-50' },
+  shipped:   { label: 'Enviado',    color: 'text-purple-600 bg-purple-50' },
+  delivered: { label: 'Entregado',  color: 'text-green-600 bg-green-50' },
+  cancelled: { label: 'Cancelado',  color: 'text-red-600 bg-red-50' },
 };
 
-// export const getServerSideProps = authorizeServerSidePage();
+const AdminDashboard = () => {
+  const { data: stats, isLoading } = useDashboardStatsQuery();
+
+  const statCards = [
+    {
+      label: 'Ventas de hoy',
+      value: isLoading ? '—' : `$${Number(stats?.salesToday ?? 0).toLocaleString('es-CR')}`,
+      color: 'text-green-600',
+    },
+    {
+      label: 'Pedidos pendientes',
+      value: isLoading ? '—' : String(stats?.pendingOrders ?? 0),
+      color: 'text-yellow-600',
+    },
+    {
+      label: 'Variantes con stock bajo',
+      value: isLoading ? '—' : String(stats?.lowStockCount ?? 0),
+      color: 'text-red-500',
+    },
+  ];
+
+  return (
+    <DashboardLayout title="Panel de Control">
+      <div className="flex flex-col gap-8">
+
+        {/* Stat cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          {statCards.map((stat) => (
+            <div key={stat.label} className="bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm">
+              <Typography variant={TypographyVariant.HELPER} className="mb-1">{stat.label}</Typography>
+              <Typography variant={TypographyVariant.HEADER} className={stat.color}>
+                {stat.value}
+              </Typography>
+            </div>
+          ))}
+        </div>
+
+        {/* Últimos pedidos */}
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-neutral-50">
+            <Typography variant={TypographyVariant.SUBTITLE}>Últimos pedidos</Typography>
+          </div>
+          {isLoading ? (
+            <div className="p-6 flex flex-col gap-3 animate-pulse">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="h-10 bg-neutral-100 rounded-xl" />
+              ))}
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-neutral-50 text-neutral-500 text-xs uppercase tracking-wide">
+                  <tr>
+                    <th className="px-6 py-3 text-left">Pedido</th>
+                    <th className="px-6 py-3 text-left">Cliente</th>
+                    <th className="px-6 py-3 text-left">Estado</th>
+                    <th className="px-6 py-3 text-right">Total</th>
+                    <th className="px-6 py-3 text-left">Fecha</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-50">
+                  {(stats?.recentOrders ?? []).length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-8 text-center text-neutral-400 italic text-sm">
+                        Aún no hay pedidos.
+                      </td>
+                    </tr>
+                  ) : (
+                    stats?.recentOrders.map((order) => {
+                      const statusInfo = STATUS_LABELS[order.status] ?? { label: order.status, color: 'text-neutral-500 bg-neutral-100' };
+                      return (
+                        <tr key={order.id} className="hover:bg-neutral-50 transition-colors">
+                          <td className="px-6 py-3 font-mono text-xs text-neutral-500">#{order.id}</td>
+                          <td className="px-6 py-3 font-medium">{order.customer_name}</td>
+                          <td className="px-6 py-3">
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${statusInfo.color}`}>
+                              {statusInfo.label}
+                            </span>
+                          </td>
+                          <td className="px-6 py-3 text-right font-semibold">
+                            ${Number(order.total_amount).toLocaleString('es-CR')}
+                          </td>
+                          <td className="px-6 py-3 text-neutral-400 text-xs">
+                            {new Date(order.created_at).toLocaleDateString('es-CR')}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+};
+
+export const getServerSideProps = authorizeServerSidePage();
 export default AdminDashboard;

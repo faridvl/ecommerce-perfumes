@@ -77,6 +77,22 @@
         "edit_success": "Perfume actualizado exitosamente"
       }
     },
+    "dashboard": {
+      "sales_today": "Ventas de hoy",
+      "pending_orders": "Pedidos pendientes",
+      "low_stock": "Variantes con stock bajo",
+      "recent_orders_title": "Últimos pedidos"
+    },
+    "customers": {
+      "title": "Directorio de Clientes",
+      "col_name": "Cliente",
+      "col_whatsapp": "WhatsApp",
+      "col_orders": "Pedidos",
+      "col_total": "Total gastado",
+      "col_last_order": "Último pedido",
+      "empty": "Aún no hay clientes registrados.",
+      "error": "Error al cargar clientes."
+    },
     "sales": {
       "list": {
         "title": "Ventas y Pedidos",

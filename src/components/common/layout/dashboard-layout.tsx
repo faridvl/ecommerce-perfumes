@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from '../header/header';
+import { Menu, ChevronLeft, LogOut } from 'lucide-react';
 import { DashboardLayoutContent } from './dasboard-content';
 import { BoxedLayoutStyle } from './boxed-container/boxed-container';
 import { SuccessAlert } from '../alerts/success-alert';
 import { tailwind } from '@/utils/tailwind-utils';
+import { Typography, TypographyVariant } from '../typography/typography';
+import { CookiesManager } from '@/shared/utils/cookies-manager';
+import { useNavigation } from '@/hooks/use-navigation';
 import DesktopSidebar from '../sidebar/desktop-sidebar/desktop-sidebar';
 
 export type UseDashboardLayoutHook = {
@@ -22,7 +25,6 @@ type LayoutProps = {
   title?: string;
   contentStyle?: BoxedLayoutStyle;
   isMainPage?: boolean;
-  // Cambiamos ReactNode por any o React.ReactElement en la función para evitar conflictos de tipos
   children?: React.ReactNode | ((useDashboardLayout: UseDashboardLayoutHook) => React.ReactNode);
   onScroll?: (event: React.UIEvent<HTMLDivElement>) => void;
   hideSidebar?: boolean;
@@ -40,11 +42,12 @@ export function DashboardLayout({
   const [contentClassNames, setContentClassNames] = useState('');
   const [bottomPadding, setDashBoardPadding] = useState('');
   const [backNavigationHandler, setBackNavigationHandler] = useState<() => void>();
-  const [headerMenu, setHeaderMenu] = useState<any>([]);
-  const [actionsButton, setActionsButton] = useState<any>();
   const [hasBackButton, setHasBackButton] = useState(!isMainPage);
   const [boxClassName, setBoxClassName] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  const { auth } = useNavigation();
 
   useEffect(() => {
     if (showSuccess) {
@@ -61,47 +64,108 @@ export function DashboardLayout({
     setPageTitle,
     setHasBackButton,
     setBackNavigationHandler,
-    setHeaderMenu,
-    setActionsButton,
+    setHeaderMenu: () => {},
+    setActionsButton: () => {},
     setContentClassNames,
     setDashBoardPadding,
     setBoxClassName,
     setShowSuccess,
   };
 
-  // Resolvemos el contenido antes de pasarlo para evitar el error de tipado
   const renderedChildren = typeof children === 'function'
     ? (children(layoutControls) as React.ReactElement)
     : (children as React.ReactElement);
 
-  return (
-    <div className="flex flex-row h-screen w-screen overflow-hidden relative bg-neutral-50 dark:bg-background transition-colors duration-300">
+  const handleLogout = () => {
+    CookiesManager.clearAll();
+    auth.login();
+  };
 
-      {/* Notificaciones Flotantes */}
-      <div className="absolute top-6 right-6 z-[100] pointer-events-none">
+  return (
+    <div className="flex flex-row h-screen w-screen overflow-hidden relative bg-neutral-50 dark:bg-background">
+
+      {/* Notificaciones */}
+      <div className="absolute top-4 right-4 z-[100] pointer-events-none">
         {showSuccess && (
-          <div className="pointer-events-auto animate-fade-in-down">
+          <div className="pointer-events-auto">
             <SuccessAlert onClose={() => setShowSuccess(false)} />
           </div>
         )}
       </div>
 
-      {/* Navegación Lateral */}
-      {!hideSidebar && <DesktopSidebar />}
+      {/* Sidebar desktop */}
+      {!hideSidebar && (
+        <div className="hidden md:flex h-full shrink-0">
+          <DesktopSidebar />
+        </div>
+      )}
 
+      {/* Sidebar mobile — drawer */}
+      {!hideSidebar && (
+        <>
+          <div
+            className={tailwind(
+              'fixed inset-0 bg-black/40 z-40 md:hidden transition-opacity duration-200',
+              isMobileSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
+            )}
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+          <div className={tailwind(
+            'fixed top-0 left-0 h-full z-50 md:hidden transition-transform duration-300',
+            isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full',
+          )}>
+            <DesktopSidebar />
+          </div>
+        </>
+      )}
+
+      {/* Contenido principal */}
       <div className={tailwind(
-        "flex flex-col flex-1 h-full min-w-0 transition-all",
-        !hideSidebar && "border-l border-neutral-200 dark:border-neutral-800"
+        'flex flex-col flex-1 h-full min-w-0',
+        !hideSidebar && 'md:border-l border-neutral-200 dark:border-neutral-800',
       )}>
 
-        <Header
-          title={pageTitle}
-          hasBackButton={hasBackButton}
-          onBack={backNavigationHandler}
-        // Si tu Header no acepta estas props aún, puedes comentarlas
-        // menuActions={headerMenu}
-        // primaryAction={actionsButton}
-        />
+        {/* Header admin */}
+        <header className="h-16 border-b border-neutral-100 bg-white sticky top-0 z-30 flex items-center px-4 md:px-6 justify-between gap-4 shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Hamburguesa mobile */}
+            {!hideSidebar && (
+              <button
+                className="md:hidden p-2 rounded-xl hover:bg-neutral-100 transition-colors shrink-0"
+                onClick={() => setIsMobileSidebarOpen(true)}
+              >
+                <Menu size={20} className="text-neutral-600" />
+              </button>
+            )}
+            {/* Volver */}
+            {hasBackButton && backNavigationHandler && (
+              <button
+                onClick={backNavigationHandler}
+                className="p-2 rounded-xl hover:bg-neutral-100 transition-colors shrink-0"
+              >
+                <ChevronLeft size={20} className="text-neutral-500" />
+              </button>
+            )}
+            {/* Título */}
+            {pageTitle && (
+              <Typography
+                variant={TypographyVariant.BODY_SEMIBOLD}
+                className="truncate text-sm md:text-base"
+              >
+                {pageTitle}
+              </Typography>
+            )}
+          </div>
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="p-2 rounded-xl hover:bg-red-50 transition-colors group shrink-0"
+            title="Cerrar sesión"
+          >
+            <LogOut size={18} className="text-neutral-400 group-hover:text-red-500 transition-colors" />
+          </button>
+        </header>
 
         <DashboardLayoutContent
           contentClassNames={tailwind(contentClassNames, bottomPadding)}
@@ -109,7 +173,6 @@ export function DashboardLayout({
           contentStyle={contentStyle}
           boxClassName={boxClassName}
         >
-          {/* Usamos el valor ya procesado */}
           {renderedChildren}
         </DashboardLayoutContent>
       </div>

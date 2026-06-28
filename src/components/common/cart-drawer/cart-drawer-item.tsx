@@ -30,22 +30,21 @@ export function CartDrawerItem({ item }: CartDrawerItemProps) {
 
   return (
     <div className="flex gap-3 py-4 border-b border-neutral-100 dark:border-neutral-800 last:border-0">
-      {/* Placeholder imagen */}
-      <div className="w-14 h-14 rounded-md bg-cream dark:bg-neutral-800 flex-shrink-0 flex items-center justify-center">
-        <svg
-          className="w-6 h-6 text-neutral-300"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M9 3v1m0 0H7a2 2 0 00-2 2v2a4 4 0 001.5 3.12M9 4h6m0 0h2a2 2 0 012 2v2a4 4 0 01-1.5 3.12M15 4v1m-3 8v8m0 0H9m3 0h3"
+      {/* Miniatura del producto */}
+      <div className="w-16 h-16 rounded-xl overflow-hidden bg-neutral-100 flex-shrink-0">
+        {item.image_url ? (
+          <img
+            src={item.image_url}
+            alt={item.product_name}
+            className="w-full h-full object-cover"
           />
-        </svg>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg className="w-6 h-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+        )}
       </div>
 
       {/* Info + controles */}

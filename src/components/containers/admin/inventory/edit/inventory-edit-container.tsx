@@ -19,6 +19,8 @@ export function InventoryEditContainer() {
     isLoadingProduct,
     isPending,
     hasError,
+    genderOptions,
+    olfactoryFamilyOptions,
     handleCancel,
     handleSubmit,
   } = useInventoryEdit();
@@ -104,6 +106,28 @@ export function InventoryEditContainer() {
               className={tailwind(inputClass, 'font-mono text-xs', errors.slug && 'border-red-400')}
             />
             {errors.slug && <span className={errorClass}>{errors.slug.message}</span>}
+          </div>
+
+          {/* Género */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-neutral-700 mb-1">Género</label>
+            <select {...register('gender')} className={tailwind(inputClass, 'bg-neutral-50')}>
+              <option value="">— Sin especificar —</option>
+              {genderOptions.map((g) => (
+                <option key={g} value={g}>{g.charAt(0).toUpperCase() + g.slice(1)}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Familia Olfativa */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-neutral-700 mb-1">Familia Olfativa</label>
+            <select {...register('olfactory_family')} className={tailwind(inputClass, 'bg-neutral-50')}>
+              <option value="">— Sin especificar —</option>
+              {olfactoryFamilyOptions.map((family) => (
+                <option key={family} value={family}>{family.charAt(0).toUpperCase() + family.slice(1)}</option>
+              ))}
+            </select>
           </div>
 
           {/* Descripción */}

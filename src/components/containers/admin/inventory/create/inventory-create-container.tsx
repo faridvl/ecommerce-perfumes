@@ -21,6 +21,9 @@ export function InventoryCreateContainer() {
     variantFields,
     imageFields,
     concentrationOptions,
+    genderOptions,
+    olfactoryFamilyOptions,
+    presentationTypeOptions,
     isPending,
     hasError,
     handleAddVariant,
@@ -84,6 +87,28 @@ export function InventoryCreateContainer() {
               className={tailwind(inputClass, 'font-mono text-xs', errors.slug && 'border-red-400')}
             />
             {errors.slug && <span className={errorClass}>{errors.slug.message}</span>}
+          </div>
+
+          {/* Género */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-neutral-700 mb-1">Género</label>
+            <select {...register('gender')} className={tailwind(inputClass, 'bg-neutral-50', errors.gender && 'border-red-400')}>
+              {genderOptions.map((g) => (
+                <option key={g} value={g}>{g.charAt(0).toUpperCase() + g.slice(1)}</option>
+              ))}
+            </select>
+            {errors.gender && <span className={errorClass}>{errors.gender.message}</span>}
+          </div>
+
+          {/* Familia Olfativa */}
+          <div className="flex flex-col">
+            <label className="text-sm font-semibold text-neutral-700 mb-1">Familia Olfativa</label>
+            <select {...register('olfactory_family')} className={tailwind(inputClass, 'bg-neutral-50')}>
+              <option value="">— Sin especificar —</option>
+              {olfactoryFamilyOptions.map((family) => (
+                <option key={family} value={family}>{family.charAt(0).toUpperCase() + family.slice(1)}</option>
+              ))}
+            </select>
           </div>
 
           {/* Descripción */}
@@ -157,6 +182,21 @@ export function InventoryCreateContainer() {
                 {concentrationOptions.map((concentrationOption) => (
                   <option key={concentrationOption} value={concentrationOption}>
                     {concentrationOption}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tipo de presentación */}
+            <div className="flex flex-col">
+              <label className="text-xs font-semibold text-neutral-500 mb-1">Tipo</label>
+              <select
+                {...register(`variants.${variantIndex}.presentation_type`)}
+                className={tailwind(inputClass, 'bg-neutral-50')}
+              >
+                {presentationTypeOptions.map((typeOption) => (
+                  <option key={typeOption} value={typeOption}>
+                    {typeOption.charAt(0).toUpperCase() + typeOption.slice(1)}
                   </option>
                 ))}
               </select>

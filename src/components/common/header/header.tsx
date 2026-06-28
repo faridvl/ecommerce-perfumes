@@ -72,9 +72,7 @@ export function Header({
             /* VISTA TIENDA */
             <div className="flex items-center gap-6">
               <nav className="hidden lg:flex gap-8 mr-4">
-                <Typography variant={TypographyVariant.LINK_TEXT} className="text-neutral-500 hover:text-primary cursor-pointer transition-colors">Hombre</Typography>
-                <Typography variant={TypographyVariant.LINK_TEXT} className="text-neutral-500 hover:text-primary cursor-pointer transition-colors">Mujer</Typography>
-                <Typography variant={TypographyVariant.LINK_TEXT} className="text-neutral-500 hover:text-primary cursor-pointer transition-colors">Nicho</Typography>
+                <Typography variant={TypographyVariant.LINK_TEXT} className="text-neutral-500 hover:text-primary cursor-pointer transition-colors">Catálogo</Typography>
               </nav>
               <div
                 className="relative cursor-pointer hover:scale-105 transition-transform p-2 bg-neutral-50 rounded-full"

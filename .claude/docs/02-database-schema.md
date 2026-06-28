@@ -37,6 +37,9 @@ Catálogo de fragancias.
 | slug | varchar | único, usado en URL |
 | is_active | boolean | soft delete |
 | created_at | timestamp | |
+| updated_at | timestamp | |
+| gender | varchar(10) | 'hombre' \| 'mujer' \| 'unisex' |
+| olfactory_family | varchar(50) | 'floral' \| 'oriental' \| 'fresco' \| 'madero' \| 'cítrico' \| 'gourmand' \| 'amaderado' \| 'acuático' |
 
 ---
 
@@ -54,6 +57,7 @@ Presentaciones de cada producto (tamaño + concentración).
 | stock | int | unidades disponibles |
 | sku | varchar | código de referencia |
 | is_active | boolean | |
+| presentation_type | varchar(10) | 'botella' \| 'decant' |
 
 ---
 

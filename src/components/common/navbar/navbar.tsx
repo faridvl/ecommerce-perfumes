@@ -1,88 +1,92 @@
-// components/Navbar.tsx
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { ShoppingBag, Menu, X } from 'lucide-react';
+import { tailwind } from '@/utils/tailwind-utils';
+import { useCartQuery } from '@/shared/api/querys/cart/use-cart-query';
+import { useCartDrawer } from '@/shared/context/cart-drawer-context';
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: cart } = useCartQuery();
+  const { open: openCartDrawer } = useCartDrawer();
+
+  const cartItemCount = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
+
   return (
-    <nav className="bg-gray-800 shadow-md">
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-between h-16">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button */}
-            <button
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md  focus:outline-none"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
+    <header className="sticky top-0 z-10 bg-warm-white/95 backdrop-blur-md border-b border-neutral-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+
+          {/* Logo */}
+          <Link href="/catalog" className="flex items-center gap-2 shrink-0">
+            <span className="font-bold text-xl text-primary tracking-tight">
+              Scent<span className="text-accent">Stack</span>
+            </span>
+          </Link>
+
+          {/* Nav links — desktop */}
+          <nav className="hidden md:flex items-center gap-6">
+            <Link
+              href="/catalog"
+              className="text-sm font-medium text-neutral-600 hover:text-primary transition-colors"
             >
-              {/* Icon for mobile menu */}
-              <svg
-                className="block h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              Catálogo
+            </Link>
+          </nav>
+
+          {/* Acciones */}
+          <div className="flex items-center gap-3">
+
+            {/* Carrito */}
+            <button
+              onClick={openCartDrawer}
+              className="relative p-2 text-neutral-600 hover:text-primary transition-colors"
+              aria-label="Abrir carrito"
+            >
+              <ShoppingBag size={22} />
+              {cartItemCount > 0 && (
+                <span className={tailwind(
+                  'absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1',
+                  'bg-accent text-white text-[10px] font-bold rounded-full',
+                  'flex items-center justify-center leading-none',
+                )}>
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
+                </span>
+              )}
+            </button>
+
+            {/* Hamburguesa mobile */}
+            <button
+              className="md:hidden p-2 text-neutral-600 hover:text-primary transition-colors"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-label="Menú"
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
-          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <img className="block h-8 w-auto" src="/logo.svg" alt="Logo" />
-            </div>
-            {/* Navigation links */}
-            <div className="hidden sm:block sm:ml-6">
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover: px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Home
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover: px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  About
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:bg-gray-700 hover: px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
-          </div>
-          {/* Right-aligned items */}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {/* Profile dropdown */}
-            <div className="ml-3 relative">
-              <div>
-                <button
-                  className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                  id="user-menu"
-                  aria-haspopup="true"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="/profile.jpg"
-                    alt="Profile image"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
+
+        {/* Menú mobile */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-neutral-100 py-4 flex flex-col gap-3">
+            <Link
+              href="/catalog"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm font-medium text-neutral-700 hover:text-primary px-2 py-1 transition-colors"
+            >
+              Catálogo
+            </Link>
+            <Link
+              href="/cart"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="text-sm font-medium text-neutral-700 hover:text-primary px-2 py-1 transition-colors"
+            >
+              Mi carrito {cartItemCount > 0 && `(${cartItemCount})`}
+            </Link>
+          </div>
+        )}
       </div>
-    </nav>
+    </header>
   );
 };
 

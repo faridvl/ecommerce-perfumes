@@ -7,7 +7,7 @@ import { TEXT } from '@/static/texts/i18n';
 import { useCheckout } from './use-checkout';
 
 const inputClass =
-  'w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent';
+  'w-full px-4 py-3 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent';
 const labelClass = 'text-xs font-bold uppercase tracking-wider text-neutral-400';
 const errorClass = 'text-xs text-red-500 mt-0.5';
 
@@ -116,13 +116,13 @@ export function CheckoutContainer() {
               )}
             </div>
 
-            <div className="p-5 bg-blue-50 rounded-2xl flex gap-4 items-start">
-              <Truck className="text-primary flex-shrink-0 mt-0.5" size={20} />
+            <div className="p-5 bg-neutral-50 rounded-2xl flex gap-4 items-start border border-neutral-100">
+              <Truck className="text-neutral-500 flex-shrink-0 mt-0.5" size={20} />
               <div>
-                <Typography variant={TypographyVariant.BODY_BOLD} textColor="text-primary">
+                <Typography variant={TypographyVariant.BODY_BOLD}>
                   {t(TEXT.CHECKOUT.SHIPPING_NOTE)}
                 </Typography>
-                <Typography variant={TypographyVariant.CAPTION} textColor="text-blue-700/70">
+                <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-500">
                   {t(TEXT.CHECKOUT.SHIPPING_CAPTION)}
                 </Typography>
               </div>

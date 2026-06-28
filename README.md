@@ -85,16 +85,16 @@ Plan completo con contexto técnico en [`.claude/docs/roadmap-visual-frontend.md
 
 #### P2 — Campos de filtro en BD y Admin
 
-- [ ] **S0-B** Migraciones SQL: `gender`, `olfactory_family` en productos; `presentation_type` en variantes
-- [ ] **S0-C** Types → Repo → Service → API: soporte de nuevos campos y parámetros de filtro
-- [ ] **S1-B** Admin: formularios actualizados con gender, familia olfativa y tipo de presentación
+- [x] **S0-B** Migraciones SQL: `gender`, `olfactory_family` en productos; `presentation_type` en variantes
+- [x] **S0-C** Types → Repo → Service → API: soporte de nuevos campos y parámetros de filtro
+- [x] **S1-B** Admin: formularios actualizados con gender, familia olfativa y tipo de presentación
 
 #### P3 — Filtros Avanzados en Catálogo
 
-- [ ] **S2-A** Hook de filtros + URL params (deep-linking)
-- [ ] **S2-B** UI: panel/chips de filtro por género y marca
-- [ ] **S2-C** UI: filtros avanzados — familia olfativa, concentración, presentación, precio
-- [ ] **S2-D** Active filters bar con chips removibles + ordenamiento
+- [x] **S2-A** Hook de filtros + URL params (deep-linking)
+- [x] **S2-B** UI: panel/chips de filtro por género y marca
+- [x] **S2-C** UI: filtros avanzados — familia olfativa, presentación, precio, ordenamiento
+- [x] **S2-D** Active filters bar con chips removibles + ordenamiento
 
 #### P4 — Cart Drawer
 
@@ -104,15 +104,16 @@ Plan completo con contexto técnico en [`.claude/docs/roadmap-visual-frontend.md
 
 #### P5 — Detalle de Producto Mejorado
 
-- [ ] **S4-A** Galería con thumbnails deslizables y zoom en hover
-- [ ] **S4-B** Chips de variante: decant/botella + precio dinámico
-- [ ] **S4-C** Breadcrumb + badges (familia, género) + mobile sticky CTA
+- [x] **S4-A** Galería con thumbnails
+- [x] **S4-B** Chips de variante: decant/botella + precio dinámico
+- [x] **S4-C** Breadcrumb + badges (familia, género) + mobile sticky CTA
 
 ---
 
 ### ⏳ Post-MVP — Backlog
 
-- [ ] Dashboard admin con métricas reales
+- [x] Dashboard admin con métricas reales
+- [x] Gestión de clientes (desde tabla `orders`)
 - [ ] Notificaciones por email al crear pedido
 - [ ] Gestión de clientes (desde tabla `orders`)
 - [ ] Reportes de ventas por período

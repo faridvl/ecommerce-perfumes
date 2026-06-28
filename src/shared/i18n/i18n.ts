@@ -15,6 +15,7 @@ i18n.use(initReactI18next).init({
   lng: 'es',
   fallbackLng: 'es',
   returnNull: false,
+  initImmediate: false,
   interpolation: {
     escapeValue: false,
     format: (value, format) => {

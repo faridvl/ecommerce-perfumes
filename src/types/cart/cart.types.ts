@@ -7,6 +7,7 @@ export interface CartItem {
   unit_price: number;
   product_name: string;
   variant_detail: string;
+  image_url: string | null;
 }
 
 export interface Cart {

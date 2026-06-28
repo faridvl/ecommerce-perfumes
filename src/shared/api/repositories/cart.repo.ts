@@ -19,11 +19,17 @@ export const CartRepo = {
             'quantity',       cartItem.quantity,
             'unit_price',     cartItem.unit_price,
             'product_name',   cartItem.product_name,
-            'variant_detail', cartItem.variant_detail
+            'variant_detail', cartItem.variant_detail,
+            'image_url',      productImage.url
           )) FILTER (WHERE cartItem.id IS NOT NULL), '[]'
         ) AS items
       FROM carts cart
       LEFT JOIN cart_items cartItem ON cartItem.cart_id = cart.id
+      LEFT JOIN LATERAL (
+        SELECT url FROM product_images
+        WHERE product_id = cartItem.product_id AND is_primary = true
+        LIMIT 1
+      ) productImage ON true
       WHERE cart.session_id = ${sessionId}
       GROUP BY cart.id
       LIMIT 1

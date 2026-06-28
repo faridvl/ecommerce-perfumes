@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ProductsService } from '@/shared/api/services/products.service';
 import { getTokenFromRequest } from '@/shared/api/api-auth';
+import { ProductGender, OlfactoryFamily, PresentationType, ProductSort } from '@/types/product/product.types';
 
 export default async function handler(
   request: NextApiRequest,
@@ -13,6 +14,12 @@ export default async function handler(
         limit: limitParam = '10',
         search,
         brand,
+        gender,
+        olfactory_family,
+        presentation_type,
+        min_price,
+        max_price,
+        sort,
       } = request.query;
 
       const paginatedProducts = await ProductsService.list({
@@ -20,6 +27,12 @@ export default async function handler(
         pageLimit: Number(limitParam),
         search: search as string | undefined,
         brand: brand as string | undefined,
+        gender: gender as ProductGender | undefined,
+        olfactory_family: olfactory_family as OlfactoryFamily | undefined,
+        presentation_type: presentation_type as PresentationType | undefined,
+        min_price: min_price ? Number(min_price) : undefined,
+        max_price: max_price ? Number(max_price) : undefined,
+        sort: sort as ProductSort | undefined,
       });
 
       return response.status(200).json(paginatedProducts);
