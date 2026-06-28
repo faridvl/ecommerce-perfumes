@@ -19,7 +19,7 @@ const HERO_SLIDES = [
     title: 'Elegancia de Verano',
     subtitle: 'Frescura cítrica que perdura',
     imageUrl:
-      'https://images.unsplash.com/photo-1547881338-6491357121b8?q=80&w=1974&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=1974&auto=format&fit=crop',
     label: 'Limited Edition',
   },
   {
@@ -94,6 +94,10 @@ export function useProductList() {
     );
   };
 
+  const handleHeroCta = () => {
+    document.getElementById('product-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return {
     heroSlides: HERO_SLIDES,
     currentSlideIndex,
@@ -108,6 +112,7 @@ export function useProductList() {
     handleSearchChange,
     handleProductClick,
     handleAddToCart,
+    handleHeroCta,
     isLoading,
     isError,
     filters,

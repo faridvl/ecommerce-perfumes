@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ApiServiceClient } from '@/shared/api/api-service-client';
 import { CATALOG_API_URL } from '@/shared/api/config';
 import { useCartQuery } from '@/shared/api/querys/cart/use-cart-query';
+import { useClearCartMutation } from '@/shared/api/mutations/cart/use-clear-cart-mutation';
 import { useNavigation } from '@/hooks/use-navigation';
 import { Order } from '@/types/order/order.types';
 
@@ -23,6 +24,7 @@ const checkoutSchema = yup.object({
 export function useCheckout() {
   const { client } = useNavigation();
   const { data: cart, isLoading: isCartLoading } = useCartQuery();
+  const { executeClearCart } = useClearCartMutation();
 
   const form = useForm<CheckoutFormValues>({
     resolver: yupResolver(checkoutSchema),
@@ -34,6 +36,7 @@ export function useCheckout() {
     mutationFn: (formValues: CheckoutFormValues) =>
       ApiServiceClient(CATALOG_API_URL).post<Order>('/orders', formValues),
     onSuccess: (createdOrder: Order) => {
+      executeClearCart();
       client.checkoutSuccess(createdOrder.uuid);
     },
   });

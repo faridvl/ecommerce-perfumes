@@ -121,9 +121,9 @@ const CheckoutSuccessPage = () => {
             {/* SINPE */}
             <button
               onClick={() => handleCopy(PAYMENT_CONFIG.sinpeNumber, 'sinpe')}
-              className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-200 group text-left"
+              className="w-full flex items-center justify-between gap-3 p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-200 group text-left"
             >
-              <div>
+              <div className="min-w-0 flex-1">
                 <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400" className="uppercase tracking-widest font-bold text-[10px] block mb-1">
                   {t(TEXT.CHECKOUT_SUCCESS.SINPE_LABEL)}
                 </Typography>
@@ -134,7 +134,7 @@ const CheckoutSuccessPage = () => {
                   {PAYMENT_CONFIG.sinpeOwner}
                 </Typography>
               </div>
-              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${copiedField === 'sinpe' ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-neutral-400 group-hover:text-white'}`}>
+              <div className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${copiedField === 'sinpe' ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-neutral-400 group-hover:text-white'}`}>
                 <Copy size={13} />
                 {copiedField === 'sinpe' ? '¡Copiado!' : 'Copiar'}
               </div>
@@ -164,10 +164,10 @@ const CheckoutSuccessPage = () => {
           <div className="px-8 pb-8">
             <button
               onClick={handleSendWhatsApp}
-              className="w-full flex items-center justify-center gap-3 py-4 bg-[#25D366] hover:bg-[#20ba5a] active:scale-[0.98] rounded-2xl transition-all duration-200 shadow-lg shadow-green-900/30 font-semibold text-white text-[15px]"
+              className="w-full flex items-center justify-center gap-2.5 py-4 bg-[#25D366] hover:bg-[#20ba5a] active:scale-[0.98] rounded-2xl transition-all duration-200 shadow-lg shadow-green-900/30 font-semibold text-white text-[15px] leading-none"
             >
-              <MessageCircle size={20} strokeWidth={2} />
-              {t(TEXT.CHECKOUT_SUCCESS.WHATSAPP_BUTTON)}
+              <MessageCircle size={20} strokeWidth={2} className="flex-shrink-0" />
+              <span>{t(TEXT.CHECKOUT_SUCCESS.WHATSAPP_BUTTON)}</span>
             </button>
           </div>
         </div>

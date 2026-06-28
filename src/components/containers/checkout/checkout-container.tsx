@@ -63,10 +63,10 @@ export function CheckoutContainer() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
 
         {/* Columna izquierda: formulario */}
-        <section className="space-y-8">
+        <section className="space-y-8 order-2 lg:order-1">
           <div>
             <Typography variant={TypographyVariant.HEADER} className="font-display mb-2">
               {t(TEXT.CHECKOUT.SECTION_DELIVERY)}
@@ -145,8 +145,8 @@ export function CheckoutContainer() {
         </section>
 
         {/* Columna derecha: resumen */}
-        <aside className="space-y-8">
-          <div className="bg-neutral-900 text-white rounded-3xl p-8 space-y-6 shadow-2xl">
+        <aside className="flex flex-col gap-6 order-1 lg:order-2">
+          <div className="bg-neutral-900 text-white rounded-3xl p-6 lg:p-8 space-y-6 shadow-2xl order-2 lg:order-1">
             <Typography variant={TypographyVariant.SUBTITLE} className="text-white">
               {t(TEXT.CHECKOUT.SUMMARY_TITLE)}
             </Typography>
@@ -189,7 +189,7 @@ export function CheckoutContainer() {
             </div>
           </div>
 
-          <div className="border border-neutral-100 rounded-3xl p-8 space-y-3">
+          <div className="border border-neutral-100 rounded-3xl p-6 lg:p-8 space-y-3 order-1 lg:order-2">
             <div className="flex items-center gap-2">
               <CreditCard size={20} className="text-neutral-400" />
               <Typography variant={TypographyVariant.BODY_BOLD}>

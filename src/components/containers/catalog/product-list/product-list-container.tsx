@@ -25,6 +25,7 @@ export function ProductListContainer() {
     handleSearchChange,
     handleProductClick,
     handleAddToCart,
+    handleHeroCta,
     isLoading,
     isError,
     filters,
@@ -87,6 +88,7 @@ export function ProductListContainer() {
                 variant={ButtonVariant.PRIMARY}
                 text={t(TEXT.CATALOG.LIST.HERO_CTA)}
                 className="w-fit px-6 sm:px-10 h-12 sm:h-14"
+                onClick={handleHeroCta}
               />
             </div>
           </div>
@@ -211,7 +213,7 @@ export function ProductListContainer() {
 
           {/* Grid de productos */}
           {!isError && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+            <div id="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
               {isLoading
                 ? Array.from({ length: 8 }).map((_, skeletonIndex) => (
                   <div key={skeletonIndex} className="animate-pulse">

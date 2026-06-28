@@ -19,14 +19,14 @@ export const StoreLayout: React.FC<StoreLayoutProps> = ({ children, title }) => 
 
 
             {/* Footer elegante */}
-            <footer className="bg-neutral-900 py-12 text-white">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <Typography variant={TypographyVariant.BODY} className="text-neutral-400">
+            <footer className="bg-neutral-900 py-10 text-white">
+                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                    <Typography variant={TypographyVariant.BODY} className="text-neutral-400 text-sm">
                         © 2026 ScentStack. Todos los derechos reservados.
                     </Typography>
-                    <div className="flex gap-6">
-                        <Typography variant={TypographyVariant.LINK_TEXT} className="text-white">Contacto</Typography>
-                        <Typography variant={TypographyVariant.LINK_TEXT} className="text-white">Envíos</Typography>
+                    <div className="flex gap-8">
+                        <Typography variant={TypographyVariant.LINK_TEXT} className="text-neutral-300 hover:text-white transition-colors text-sm">Contacto</Typography>
+                        <Typography variant={TypographyVariant.LINK_TEXT} className="text-neutral-300 hover:text-white transition-colors text-sm">Envíos</Typography>
                     </div>
                 </div>
             </footer>
