@@ -55,55 +55,74 @@ const AdminDashboard = () => {
             <Typography variant={TypographyVariant.SUBTITLE}>Últimos pedidos</Typography>
           </div>
           {isLoading ? (
-            <div className="p-6 flex flex-col gap-3 animate-pulse">
+            <div className="p-4 flex flex-col gap-3 animate-pulse">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="h-10 bg-neutral-100 rounded-xl" />
               ))}
             </div>
+          ) : (stats?.recentOrders ?? []).length === 0 ? (
+            <div className="px-6 py-8 text-center text-neutral-400 italic text-sm">
+              Aún no hay pedidos.
+            </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-neutral-50 text-neutral-500 text-xs uppercase tracking-wide">
-                  <tr>
-                    <th className="px-6 py-3 text-left">Pedido</th>
-                    <th className="px-6 py-3 text-left">Cliente</th>
-                    <th className="px-6 py-3 text-left">Estado</th>
-                    <th className="px-6 py-3 text-right">Total</th>
-                    <th className="px-6 py-3 text-left">Fecha</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-neutral-50">
-                  {(stats?.recentOrders ?? []).length === 0 ? (
+            <>
+              {/* Cards — mobile */}
+              <div className="md:hidden divide-y divide-neutral-50">
+                {stats?.recentOrders.map((order) => {
+                  const statusInfo = STATUS_LABELS[order.status] ?? { label: order.status, color: 'text-neutral-500 bg-neutral-100' };
+                  return (
+                    <div key={order.id} className="px-4 py-3 flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="font-mono text-xs text-neutral-400">#{order.id}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${statusInfo.color}`}>
+                            {statusInfo.label}
+                          </span>
+                        </div>
+                        <Typography variant={TypographyVariant.BODY_SEMIBOLD} className="text-sm truncate">{order.customer_name}</Typography>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <Typography variant={TypographyVariant.BODY_BOLD} textColor="text-primary" className="text-sm">
+                          ${Number(order.total_amount).toLocaleString('es-CR')}
+                        </Typography>
+                        <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400" className="text-[11px]">
+                          {new Date(order.created_at).toLocaleDateString('es-CR')}
+                        </Typography>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Tabla — desktop */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-neutral-50 text-neutral-500 text-xs uppercase tracking-wide">
                     <tr>
-                      <td colSpan={5} className="px-6 py-8 text-center text-neutral-400 italic text-sm">
-                        Aún no hay pedidos.
-                      </td>
+                      <th className="px-6 py-3 text-left">Pedido</th>
+                      <th className="px-6 py-3 text-left">Cliente</th>
+                      <th className="px-6 py-3 text-left">Estado</th>
+                      <th className="px-6 py-3 text-right">Total</th>
+                      <th className="px-6 py-3 text-left">Fecha</th>
                     </tr>
-                  ) : (
-                    stats?.recentOrders.map((order) => {
+                  </thead>
+                  <tbody className="divide-y divide-neutral-50">
+                    {stats?.recentOrders.map((order) => {
                       const statusInfo = STATUS_LABELS[order.status] ?? { label: order.status, color: 'text-neutral-500 bg-neutral-100' };
                       return (
                         <tr key={order.id} className="hover:bg-neutral-50 transition-colors">
                           <td className="px-6 py-3 font-mono text-xs text-neutral-500">#{order.id}</td>
                           <td className="px-6 py-3 font-medium">{order.customer_name}</td>
-                          <td className="px-6 py-3">
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${statusInfo.color}`}>
-                              {statusInfo.label}
-                            </span>
-                          </td>
-                          <td className="px-6 py-3 text-right font-semibold">
-                            ${Number(order.total_amount).toLocaleString('es-CR')}
-                          </td>
-                          <td className="px-6 py-3 text-neutral-400 text-xs">
-                            {new Date(order.created_at).toLocaleDateString('es-CR')}
-                          </td>
+                          <td className="px-6 py-3"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${statusInfo.color}`}>{statusInfo.label}</span></td>
+                          <td className="px-6 py-3 text-right font-semibold">${Number(order.total_amount).toLocaleString('es-CR')}</td>
+                          <td className="px-6 py-3 text-neutral-400 text-xs">{new Date(order.created_at).toLocaleDateString('es-CR')}</td>
                         </tr>
                       );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </div>

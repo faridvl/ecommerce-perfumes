@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, ChevronLeft, LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { DashboardLayoutContent } from './dasboard-content';
 import { BoxedLayoutStyle } from './boxed-container/boxed-container';
 import { SuccessAlert } from '../alerts/success-alert';
@@ -8,6 +10,7 @@ import { Typography, TypographyVariant } from '../typography/typography';
 import { CookiesManager } from '@/shared/utils/cookies-manager';
 import { useNavigation } from '@/hooks/use-navigation';
 import DesktopSidebar from '../sidebar/desktop-sidebar/desktop-sidebar';
+import { NAVIGATION_PATHS } from '@/shared/constants/sidebar';
 
 export type UseDashboardLayoutHook = {
   setPageTitle: (title: string) => void;
@@ -48,6 +51,7 @@ export function DashboardLayout({
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const { auth } = useNavigation();
+  const router = useRouter();
 
   useEffect(() => {
     if (showSuccess) {
@@ -168,7 +172,7 @@ export function DashboardLayout({
         </header>
 
         <DashboardLayoutContent
-          contentClassNames={tailwind(contentClassNames, bottomPadding)}
+          contentClassNames={tailwind(contentClassNames, bottomPadding, 'pb-20 md:pb-0')}
           onScroll={onScroll}
           contentStyle={contentStyle}
           boxClassName={boxClassName}
@@ -176,6 +180,33 @@ export function DashboardLayout({
           {renderedChildren}
         </DashboardLayoutContent>
       </div>
+
+      {/* Bottom nav — solo mobile */}
+      {!hideSidebar && (
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-neutral-100 safe-area-inset-bottom">
+          <div className="flex items-stretch h-16">
+            {NAVIGATION_PATHS.slice(0, 5).map((item) => {
+              const isActive = router.pathname.startsWith(item.route);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.menuKey}
+                  href={item.route}
+                  className={tailwind(
+                    'flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors text-[10px] font-semibold',
+                    isActive ? 'text-accent' : 'text-neutral-400',
+                  )}
+                >
+                  <Icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />
+                  <span className="truncate max-w-[56px] text-center leading-tight">
+                    {item.labelKey.split(' ')[0]}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
+      )}
     </div>
   );
 }

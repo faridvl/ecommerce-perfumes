@@ -86,130 +86,86 @@ export function SalesListContainer() {
         </div>
       </div>
 
-      {/* Tabla */}
-      <div className="bg-white rounded-2xl border border-neutral-100 overflow-hidden shadow-sm">
+      {/* Cards — mobile */}
+      <div className="md:hidden flex flex-col gap-3">
+        {isLoading && Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="bg-white rounded-2xl border border-neutral-100 p-4 animate-pulse space-y-2">
+            <div className="flex justify-between"><div className="h-4 bg-neutral-200 rounded w-20" /><div className="h-5 bg-neutral-200 rounded-full w-24" /></div>
+            <div className="h-4 bg-neutral-200 rounded w-1/2" />
+            <div className="h-3 bg-neutral-200 rounded w-1/3" />
+          </div>
+        ))}
+        {isError && (
+          <div className="bg-white rounded-2xl border border-neutral-100 p-6 text-center">
+            <Typography variant={TypographyVariant.BODY} textColor="text-red-500">{t(TEXT.ADMIN.SALES.LIST.ERROR)}</Typography>
+          </div>
+        )}
+        {!isLoading && !isError && orders.length === 0 && (
+          <div className="bg-white rounded-2xl border border-neutral-100 p-12 text-center">
+            <ShoppingBag size={36} className="mx-auto text-neutral-200 mb-3" />
+            <Typography variant={TypographyVariant.BODY} textColor="text-neutral-400">{t(TEXT.ADMIN.SALES.LIST.EMPTY)}</Typography>
+          </div>
+        )}
+        {!isLoading && !isError && orders.map((order: Order) => (
+          <button
+            key={order.uuid}
+            onClick={() => handleViewOrder(order.uuid)}
+            className="w-full bg-white rounded-2xl border border-neutral-100 p-4 text-left hover:border-primary/30 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <Typography variant={TypographyVariant.BODY_SEMIBOLD} textColor="text-primary" className="font-mono text-sm">
+                #SS-{order.id}
+              </Typography>
+              <span className={tailwind('px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wide shrink-0', STATUS_STYLES[order.status])}>
+                {t(STATUS_LABEL_KEYS[order.status])}
+              </span>
+            </div>
+            <Typography variant={TypographyVariant.BODY_BOLD} className="text-sm leading-tight">{order.customer_name}</Typography>
+            <div className="flex items-center justify-between mt-2">
+              <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">
+                {new Date(order.created_at).toLocaleDateString('es-CR', { day: '2-digit', month: 'short', year: 'numeric' })}
+              </Typography>
+              <Typography variant={TypographyVariant.BODY_BOLD} textColor="text-primary" className="text-sm">
+                ${order.total_amount.toLocaleString('es-CR')}
+              </Typography>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Tabla — desktop */}
+      <div className="hidden md:block bg-white rounded-2xl border border-neutral-100 overflow-hidden shadow-sm">
         <table className="w-full text-left">
           <thead className="bg-neutral-50 border-b border-neutral-100">
             <tr>
-              {[
-                TEXT.ADMIN.SALES.LIST.COL_ORDER,
-                TEXT.ADMIN.SALES.LIST.COL_CUSTOMER,
-                TEXT.ADMIN.SALES.LIST.COL_DATE,
-                TEXT.ADMIN.SALES.LIST.COL_TOTAL,
-                TEXT.ADMIN.SALES.LIST.COL_STATUS,
-                TEXT.ADMIN.SALES.LIST.COL_ACTIONS,
-              ].map((columnKey) => (
-                <th
-                  key={columnKey}
-                  className="px-6 py-4 text-xs font-bold uppercase text-neutral-500 tracking-wide"
-                >
-                  {t(columnKey)}
-                </th>
+              {[TEXT.ADMIN.SALES.LIST.COL_ORDER, TEXT.ADMIN.SALES.LIST.COL_CUSTOMER, TEXT.ADMIN.SALES.LIST.COL_DATE, TEXT.ADMIN.SALES.LIST.COL_TOTAL, TEXT.ADMIN.SALES.LIST.COL_STATUS, TEXT.ADMIN.SALES.LIST.COL_ACTIONS].map((columnKey) => (
+                <th key={columnKey} className="px-6 py-4 text-xs font-bold uppercase text-neutral-500 tracking-wide">{t(columnKey)}</th>
               ))}
             </tr>
           </thead>
-
           <tbody className="divide-y divide-neutral-100">
-            {isLoading &&
-              Array.from({ length: 5 }).map((_, skeletonIndex) => (
-                <tr key={skeletonIndex} className="animate-pulse">
-                  <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-20" /></td>
-                  <td className="px-6 py-4">
-                    <div className="h-4 bg-neutral-200 rounded w-32 mb-1" />
-                    <div className="h-3 bg-neutral-200 rounded w-40" />
-                  </td>
-                  <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-24" /></td>
-                  <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-20" /></td>
-                  <td className="px-6 py-4"><div className="h-6 bg-neutral-200 rounded-full w-24" /></td>
-                  <td className="px-6 py-4"><div className="h-8 bg-neutral-200 rounded w-10" /></td>
-                </tr>
-              ))}
-
-            {isError && (
-              <tr>
-                <td colSpan={6} className="px-6 py-12 text-center">
-                  <Typography variant={TypographyVariant.BODY} textColor="text-red-500">
-                    {t(TEXT.ADMIN.SALES.LIST.ERROR)}
-                  </Typography>
-                </td>
+            {isLoading && Array.from({ length: 5 }).map((_, skeletonIndex) => (
+              <tr key={skeletonIndex} className="animate-pulse">
+                <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-20" /></td>
+                <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-32 mb-1" /><div className="h-3 bg-neutral-200 rounded w-40" /></td>
+                <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-24" /></td>
+                <td className="px-6 py-4"><div className="h-4 bg-neutral-200 rounded w-20" /></td>
+                <td className="px-6 py-4"><div className="h-6 bg-neutral-200 rounded-full w-24" /></td>
+                <td className="px-6 py-4"><div className="h-8 bg-neutral-200 rounded w-10" /></td>
               </tr>
-            )}
-
-            {!isLoading && !isError && orders.length === 0 && (
-              <tr>
-                <td colSpan={6} className="px-6 py-16 text-center">
-                  <ShoppingBag size={40} className="mx-auto text-neutral-200 mb-3" />
-                  <Typography variant={TypographyVariant.BODY} textColor="text-neutral-400">
-                    {t(TEXT.ADMIN.SALES.LIST.EMPTY)}
-                  </Typography>
-                </td>
+            ))}
+            {isError && (<tr><td colSpan={6} className="px-6 py-12 text-center"><Typography variant={TypographyVariant.BODY} textColor="text-red-500">{t(TEXT.ADMIN.SALES.LIST.ERROR)}</Typography></td></tr>)}
+            {!isLoading && !isError && orders.length === 0 && (<tr><td colSpan={6} className="px-6 py-16 text-center"><ShoppingBag size={40} className="mx-auto text-neutral-200 mb-3" /><Typography variant={TypographyVariant.BODY} textColor="text-neutral-400">{t(TEXT.ADMIN.SALES.LIST.EMPTY)}</Typography></td></tr>)}
+            {!isLoading && !isError && orders.map((order: Order) => (
+              <tr key={order.uuid} className="hover:bg-neutral-50 transition-colors">
+                <td className="px-6 py-4"><Typography variant={TypographyVariant.BODY_SEMIBOLD} textColor="text-primary" className="font-mono text-sm">#SS-{order.id}</Typography></td>
+                <td className="px-6 py-4"><Typography variant={TypographyVariant.BODY_BOLD} className="leading-tight">{order.customer_name}</Typography><Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">{order.customer_whatsapp}</Typography></td>
+                <td className="px-6 py-4"><Typography variant={TypographyVariant.BODY} textColor="text-neutral-600">{new Date(order.created_at).toLocaleDateString('es-CR', { day: '2-digit', month: 'short', year: 'numeric' })}</Typography></td>
+                <td className="px-6 py-4"><Typography variant={TypographyVariant.BODY_BOLD} textColor="text-primary">${order.total_amount.toLocaleString('es-CR')}</Typography></td>
+                <td className="px-6 py-4"><span className={tailwind('inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide', STATUS_STYLES[order.status])}>{t(STATUS_LABEL_KEYS[order.status])}</span></td>
+                <td className="px-6 py-4"><button onClick={() => handleViewOrder(order.uuid)} className="p-2 text-neutral-500 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"><Eye size={16} /></button></td>
               </tr>
-            )}
-
-            {!isLoading &&
-              !isError &&
-              orders.map((order: Order) => (
-                <tr
-                  key={order.uuid}
-                  className="hover:bg-neutral-50 transition-colors"
-                >
-                  <td className="px-6 py-4">
-                    <Typography
-                      variant={TypographyVariant.BODY_SEMIBOLD}
-                      textColor="text-primary"
-                      className="font-mono text-sm"
-                    >
-                      #SS-{order.id}
-                    </Typography>
-                  </td>
-
-                  <td className="px-6 py-4">
-                    <Typography variant={TypographyVariant.BODY_BOLD} className="leading-tight">
-                      {order.customer_name}
-                    </Typography>
-                    <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">
-                      {order.customer_whatsapp}
-                    </Typography>
-                  </td>
-
-                  <td className="px-6 py-4">
-                    <Typography variant={TypographyVariant.BODY} textColor="text-neutral-600">
-                      {new Date(order.created_at).toLocaleDateString('es-CR', {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </Typography>
-                  </td>
-
-                  <td className="px-6 py-4">
-                    <Typography variant={TypographyVariant.BODY_BOLD} textColor="text-primary">
-                      ${order.total_amount.toLocaleString('es-CR')}
-                    </Typography>
-                  </td>
-
-                  <td className="px-6 py-4">
-                    <span
-                      className={tailwind(
-                        'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide',
-                        STATUS_STYLES[order.status],
-                      )}
-                    >
-                      {t(STATUS_LABEL_KEYS[order.status])}
-                    </span>
-                  </td>
-
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => handleViewOrder(order.uuid)}
-                      className="p-2 text-neutral-500 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-                      title={t(TEXT.ADMIN.SALES.LIST.ACTION_VIEW)}
-                    >
-                      <Eye size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+            ))}
           </tbody>
         </table>
       </div>
