@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle2, Copy, MessageCircle, Info } from 'lucide-react';
+import { CheckCircle2, Copy, MessageCircle, Sparkles } from 'lucide-react';
 import { Typography, TypographyVariant } from '@/components/common/typography/typography';
-import { Button, ButtonVariant } from '@/components/common/button/button';
 import { StoreLayout } from '@/components/common/layout/store-layout/store-layout';
 import { useOrderDetailQuery } from '@/shared/api/querys/orders/use-order-detail-query';
 import { useNavigation } from '@/hooks/use-navigation';
 import { TEXT } from '@/static/texts/i18n';
+import { useState } from 'react';
 
-// Actualiza estos valores con los datos reales de pago
 const PAYMENT_CONFIG = {
   sinpeNumber: process.env.NEXT_PUBLIC_SINPE_NUMBER ?? '',
   sinpeOwner: process.env.NEXT_PUBLIC_SINPE_OWNER ?? '',
@@ -21,11 +20,14 @@ const CheckoutSuccessPage = () => {
   const { t } = useTranslation();
   const { client } = useNavigation();
   const orderUuid = typeof router.query.id === 'string' ? router.query.id : '';
+  const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const { data: order, isLoading, isError } = useOrderDetailQuery(orderUuid);
 
-  const handleCopy = (textToCopy: string) => {
-    navigator.clipboard.writeText(textToCopy);
+  const handleCopy = (text: string, field: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
   };
 
   const handleSendWhatsApp = () => {
@@ -40,10 +42,10 @@ const CheckoutSuccessPage = () => {
   if (isLoading || !orderUuid) {
     return (
       <StoreLayout title={t(TEXT.CHECKOUT_SUCCESS.TITLE)}>
-        <div className="max-w-2xl mx-auto py-10 animate-pulse space-y-6">
-          <div className="h-20 w-20 bg-neutral-200 rounded-full mx-auto" />
-          <div className="h-8 bg-neutral-200 rounded w-64 mx-auto" />
-          <div className="h-64 bg-neutral-200 rounded-3xl" />
+        <div className="max-w-lg mx-auto py-16 animate-pulse space-y-6 px-4">
+          <div className="h-24 w-24 bg-neutral-200 rounded-full mx-auto" />
+          <div className="h-8 bg-neutral-200 rounded-2xl w-3/4 mx-auto" />
+          <div className="h-72 bg-neutral-200 rounded-3xl" />
         </div>
       </StoreLayout>
     );
@@ -52,7 +54,7 @@ const CheckoutSuccessPage = () => {
   if (isError || !order) {
     return (
       <StoreLayout title={t(TEXT.CHECKOUT_SUCCESS.TITLE)}>
-        <div className="max-w-2xl mx-auto py-24 text-center">
+        <div className="max-w-lg mx-auto py-24 text-center px-4">
           <Typography variant={TypographyVariant.BODY} textColor="text-neutral-400">
             {t(TEXT.CHECKOUT_SUCCESS.NOT_FOUND)}
           </Typography>
@@ -69,118 +71,117 @@ const CheckoutSuccessPage = () => {
 
   return (
     <StoreLayout title={t(TEXT.CHECKOUT_SUCCESS.TITLE)}>
-      <div className="max-w-2xl mx-auto py-10">
+      <div className="max-w-lg mx-auto py-12 px-4">
 
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
-            <CheckCircle2 className="text-green-600" size={40} />
-          </div>
-          <Typography variant={TypographyVariant.HEADER} className="font-display mb-2 text-3xl">
-            {t(TEXT.CHECKOUT_SUCCESS.HEADING)}
-          </Typography>
-          <Typography variant={TypographyVariant.BODY} textColor="text-neutral-500">
-            {t(TEXT.CHECKOUT_SUCCESS.ORDER_LABEL)}{' '}
-            <span className="font-bold text-neutral-900">#SS-{order.id}</span>
-          </Typography>
-        </div>
-
-        {/* Instrucciones de pago */}
-        <div className="bg-neutral-50 rounded-3xl p-8 border border-neutral-100 space-y-8">
-          <div>
-            <Typography variant={TypographyVariant.SUBTITLE} className="mb-4">
-              {t(TEXT.CHECKOUT_SUCCESS.INSTRUCTIONS_TITLE)}
-            </Typography>
-            <div className="p-4 bg-blue-50 rounded-2xl flex gap-3 items-start border border-blue-100">
-              <Info className="text-blue-600 flex-shrink-0 mt-0.5" size={18} />
-              <Typography variant={TypographyVariant.CAPTION} textColor="text-blue-800">
-                {t(TEXT.CHECKOUT_SUCCESS.INSTRUCTIONS_NOTE)}
-              </Typography>
+        <div className="text-center mb-10">
+          <div className="relative inline-flex items-center justify-center mb-6">
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center">
+              <CheckCircle2 className="text-green-500" size={44} strokeWidth={1.5} />
+            </div>
+            <div className="absolute -top-1 -right-1 w-7 h-7 bg-accent rounded-full flex items-center justify-center shadow-md">
+              <Sparkles size={13} className="text-white" />
             </div>
           </div>
+          <Typography variant={TypographyVariant.HEADER} className="text-2xl md:text-3xl mb-2">
+            {t(TEXT.CHECKOUT_SUCCESS.HEADING)}
+          </Typography>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-neutral-100 rounded-full mt-1">
+            <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400">
+              {t(TEXT.CHECKOUT_SUCCESS.ORDER_LABEL)}
+            </Typography>
+            <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-800" className="font-bold">
+              #SS-{order.id}
+            </Typography>
+          </div>
+        </div>
 
-          <div className="space-y-4">
+        {/* Card principal */}
+        <div className="bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl">
+
+          {/* Top — total */}
+          <div className="px-8 pt-8 pb-6 border-b border-white/10">
+            <Typography variant={TypographyVariant.OVERLINE} textColor="text-neutral-400" className="mb-3 block">
+              {t(TEXT.CHECKOUT_SUCCESS.TOTAL_LABEL)}
+            </Typography>
+            <Typography variant={TypographyVariant.HEADER} textColor="text-white" className="text-4xl font-display">
+              ${order.total_amount.toLocaleString('es-CR')}
+            </Typography>
+            <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-500" className="mt-1 block">
+              {t(TEXT.CHECKOUT_SUCCESS.INSTRUCTIONS_NOTE)}
+            </Typography>
+          </div>
+
+          {/* Métodos de pago */}
+          <div className="px-8 py-6 space-y-3">
+            <Typography variant={TypographyVariant.OVERLINE} textColor="text-neutral-500" className="block mb-4">
+              {t(TEXT.CHECKOUT_SUCCESS.INSTRUCTIONS_TITLE)}
+            </Typography>
+
             {/* SINPE */}
-            <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-neutral-100 shadow-sm">
+            <button
+              onClick={() => handleCopy(PAYMENT_CONFIG.sinpeNumber, 'sinpe')}
+              className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-200 group text-left"
+            >
               <div>
-                <Typography
-                  variant={TypographyVariant.CAPTION}
-                  textColor="text-neutral-400"
-                  className="font-bold uppercase tracking-widest text-[10px]"
-                >
+                <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400" className="uppercase tracking-widest font-bold text-[10px] block mb-1">
                   {t(TEXT.CHECKOUT_SUCCESS.SINPE_LABEL)}
                 </Typography>
-                <Typography variant={TypographyVariant.BODY_BOLD} className="text-lg">
+                <Typography variant={TypographyVariant.BODY_BOLD} textColor="text-white" className="text-xl tracking-wider">
                   {PAYMENT_CONFIG.sinpeNumber}
                 </Typography>
                 <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-500">
                   {PAYMENT_CONFIG.sinpeOwner}
                 </Typography>
               </div>
-              <button
-                onClick={() => handleCopy(PAYMENT_CONFIG.sinpeNumber)}
-                className="p-3 hover:bg-neutral-50 rounded-xl transition-colors text-primary"
-                title="Copiar"
-              >
-                <Copy size={20} />
-              </button>
-            </div>
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${copiedField === 'sinpe' ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-neutral-400 group-hover:text-white'}`}>
+                <Copy size={13} />
+                {copiedField === 'sinpe' ? '¡Copiado!' : 'Copiar'}
+              </div>
+            </button>
 
             {/* IBAN */}
-            <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-neutral-100 shadow-sm">
-              <div>
-                <Typography
-                  variant={TypographyVariant.CAPTION}
-                  textColor="text-neutral-400"
-                  className="font-bold uppercase tracking-widest text-[10px]"
-                >
+            <button
+              onClick={() => handleCopy(PAYMENT_CONFIG.iban, 'iban')}
+              className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-200 group text-left"
+            >
+              <div className="min-w-0 flex-1">
+                <Typography variant={TypographyVariant.CAPTION} textColor="text-neutral-400" className="uppercase tracking-widest font-bold text-[10px] block mb-1">
                   {t(TEXT.CHECKOUT_SUCCESS.IBAN_LABEL)}
                 </Typography>
-                <Typography variant={TypographyVariant.BODY_BOLD} className="text-sm break-all">
+                <Typography variant={TypographyVariant.BODY_BOLD} textColor="text-white" className="text-sm font-mono break-all">
                   {PAYMENT_CONFIG.iban}
                 </Typography>
               </div>
-              <button
-                onClick={() => handleCopy(PAYMENT_CONFIG.iban)}
-                className="p-3 hover:bg-neutral-50 rounded-xl transition-colors text-primary"
-                title="Copiar"
-              >
-                <Copy size={20} />
-              </button>
-            </div>
+              <div className={`ml-3 flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${copiedField === 'iban' ? 'bg-green-500/20 text-green-400' : 'bg-white/10 text-neutral-400 group-hover:text-white'}`}>
+                <Copy size={13} />
+                {copiedField === 'iban' ? '¡Copiado!' : 'Copiar'}
+              </div>
+            </button>
           </div>
 
-          <div className="pt-4 text-center">
-            <Typography variant={TypographyVariant.BODY} textColor="text-neutral-500" className="mb-2">
-              {t(TEXT.CHECKOUT_SUCCESS.TOTAL_LABEL)}
-            </Typography>
-            <Typography
-              variant={TypographyVariant.HEADER}
-              textColor="text-primary"
-              className="text-4xl mb-8 font-display"
-            >
-              ${order.total_amount.toLocaleString('es-CR')}
-            </Typography>
-
-            <Button
-              variant={ButtonVariant.PRIMARY}
-              text={t(TEXT.CHECKOUT_SUCCESS.WHATSAPP_BUTTON)}
-              className="w-full h-16 text-lg bg-[#25D366] hover:bg-[#20ba5a] border-none shadow-lg shadow-green-200"
+          {/* WhatsApp CTA */}
+          <div className="px-8 pb-8">
+            <button
               onClick={handleSendWhatsApp}
+              className="w-full flex items-center justify-center gap-3 py-4 bg-[#25D366] hover:bg-[#20ba5a] active:scale-[0.98] rounded-2xl transition-all duration-200 shadow-lg shadow-green-900/30 font-semibold text-white text-[15px]"
             >
-              <MessageCircle className="mr-2" />
-            </Button>
+              <MessageCircle size={20} strokeWidth={2} />
+              {t(TEXT.CHECKOUT_SUCCESS.WHATSAPP_BUTTON)}
+            </button>
           </div>
         </div>
 
+        {/* Footer */}
         <div className="mt-8 text-center">
           <button
             onClick={() => client.home()}
-            className="text-neutral-400 hover:text-primary transition-colors text-sm font-medium"
+            className="text-neutral-400 hover:text-neutral-700 transition-colors text-sm font-medium"
           >
             {t(TEXT.CHECKOUT_SUCCESS.BACK_TO_STORE)}
           </button>
         </div>
+
       </div>
     </StoreLayout>
   );
