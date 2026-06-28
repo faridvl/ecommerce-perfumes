@@ -94,7 +94,7 @@ export function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="px-5 py-4 border-t border-neutral-100 dark:border-neutral-800 space-y-3">
+          <div className="px-5 pt-4 pb-6 border-t border-neutral-100 dark:border-neutral-800 space-y-3 safe-area-inset-bottom">
             <div className="flex items-center justify-between">
               <Typography variant={TypographyVariant.BODY}>Subtotal</Typography>
               <Typography variant={TypographyVariant.BODY_BOLD}>${subtotal.toFixed(2)}</Typography>
